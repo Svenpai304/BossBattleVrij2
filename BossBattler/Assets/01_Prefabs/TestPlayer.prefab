@@ -12,12 +12,14 @@ GameObject:
   - component: {fileID: 3384975784960912689}
   - component: {fileID: 3429078456602217465}
   - component: {fileID: 2860999540016542106}
+  - component: {fileID: 2758795318876362246}
   - component: {fileID: 3408343712455569183}
   - component: {fileID: 7062875397998344471}
   - component: {fileID: 4609541922154418243}
   - component: {fileID: 8066967508421131549}
   - component: {fileID: 3315776777362135010}
   - component: {fileID: 4298726500760555847}
+  - component: {fileID: 8987382485653265541}
   m_Layer: 6
   m_Name: TestPlayer
   m_TagString: Player
@@ -164,6 +166,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &2758795318876362246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715701324383648053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f16e29a4c205240a30ec9fd35de959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
+  MaxDashTime: 5
+  MouseSensitivity: 0.07
+  keyboardLookReticle: {fileID: 3503251779541145531, guid: 9123b7d99e7d115408c261d6adf7d27e, type: 3}
+  gamepadLookArrow: {fileID: 1684940156943448836, guid: 0ca6524efe1490a41a33eea951ee2e06, type: 3}
+  gamepadArrowOffset: 1.5
+  LookDirection: {x: 0, y: 0}
+  health: 0
+  power: 0
+  dashTime: 0
+  isKeyboard: 0
 --- !u!114 &3408343712455569183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +320,19 @@ MonoBehaviour:
     m_ActionId: c0cff83b-4395-4d71-bb86-bd4e9abd5008
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2758795318876362246}
+        m_TargetAssemblyTypeName: characterStatus, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b5e276dc-edba-4ed0-8d55-5d171b8a0fac
     m_ActionName: Player/Look[/Mouse/position]
   - m_PersistentCalls:
@@ -315,7 +352,19 @@ MonoBehaviour:
     m_ActionId: 025a0208-c2a8-4be9-a235-a5f3a64bdd8d
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8987382485653265541}
+        m_TargetAssemblyTypeName: characterDash, Assembly-CSharp
+        m_MethodName: OnDashButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: cdee0045-6661-4276-9c84-f480ed545649
     m_ActionName: Player/Dash[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -360,3 +409,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8987382485653265541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715701324383648053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4c1d176ab1a2649843b69b053b0593, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashForce: 150
+  dashing: 0
