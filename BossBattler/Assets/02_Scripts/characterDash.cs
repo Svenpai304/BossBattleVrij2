@@ -28,12 +28,21 @@ public class characterDash : MonoBehaviour
         if (dashing)
         {
             rb.AddForce(status.LookDirection * dashForce);
+            status.DashTime = Mathf.Clamp(status.DashTime - Time.fixedDeltaTime, 0, status.MaxDashTime);
+            if(status.DashTime == 0)
+            {
+                EndDash();
+            }
+        }
+        else if(jump.onGround)
+        {
+            status.DashTime = status.MaxDashTime;
         }
     }
 
     public void OnDashButton(InputAction.CallbackContext c)
     {
-        if (c.started) { StartDash(); }
+        if (c.started && status.DashTime > 0) { StartDash(); }
         if (c.canceled && dashing) { EndDash(); }
     }
 
@@ -41,7 +50,10 @@ public class characterDash : MonoBehaviour
     {
         dashing = true;
         jump.enabled = false;
-        rb.AddForce(status.LookDirection * dashStartForce);
+        if(status.DashTime == status.MaxDashTime)
+        {
+            rb.AddForce(status.LookDirection * dashStartForce);
+        }
         Physics2D.gravity = new Vector2(0, 9.81f * gravMultiplier);
 
     }
