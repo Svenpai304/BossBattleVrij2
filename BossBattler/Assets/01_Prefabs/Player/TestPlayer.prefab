@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3315776777362135010}
   - component: {fileID: 4298726500760555847}
   - component: {fileID: 8987382485653265541}
+  - component: {fileID: 5011379757760672600}
   m_Layer: 6
   m_Name: TestPlayer
   m_TagString: Player
@@ -222,10 +223,8 @@ MonoBehaviour:
   itsTheIntro: 0
   directionX: 0
   velocity: {x: 0, y: 0}
-  platforms: []
   onGround: 0
   pressingKey: 0
-  holdingDown: 0
 --- !u!114 &7062875397998344471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,19 +375,67 @@ MonoBehaviour:
     m_ActionId: cdee0045-6661-4276-9c84-f480ed545649
     m_ActionName: Player/Dash[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5011379757760672600}
+        m_TargetAssemblyTypeName: SciencePack, Assembly-CSharp
+        m_MethodName: OnFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f67fdf37-49a0-40ea-b7bf-b1e20adee699
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5011379757760672600}
+        m_TargetAssemblyTypeName: SciencePack, Assembly-CSharp
+        m_MethodName: OnElement1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8e1c4100-a337-4eed-9ad4-dd1327038e14
     m_ActionName: Player/Use Element 1[/Keyboard/1]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5011379757760672600}
+        m_TargetAssemblyTypeName: SciencePack, Assembly-CSharp
+        m_MethodName: OnElement2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: dfde13bd-04b3-48b9-b0a6-d125b7a9a5c8
     m_ActionName: Player/Use Element 2[/Keyboard/2]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5011379757760672600}
+        m_TargetAssemblyTypeName: SciencePack, Assembly-CSharp
+        m_MethodName: OnElement3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: fa2837f3-606b-4f60-9f72-fb8b6d70eb26
     m_ActionName: Player/Use Element 3[/Keyboard/3]
   m_NeverAutoSwitchControlSchemes: 0
@@ -433,3 +480,19 @@ MonoBehaviour:
   dashStartForce: 1000
   gravMultiplier: 0.001
   dashing: 0
+--- !u!114 &5011379757760672600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715701324383648053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930aa36180ac4ba49bf710e49f213d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  elements:
+  - {fileID: 11400000, guid: 99cd59d24d600744a90d6c322578c77f, type: 2}
+  - {fileID: 11400000, guid: 146ccae0f15f01d4eb58af06c7b1cfd4, type: 2}
+  - {fileID: 11400000, guid: 7b31e7fcc3222614ca34b9b93f50d65a, type: 2}

@@ -63,7 +63,6 @@ public class characterStatus : MonoBehaviour
 
     public void OnLook(InputAction.CallbackContext c)
     {
-        Debug.Log(c.ToString());
         Vector2 input = c.ReadValue<Vector2>();
         if (isKeyboard) { KeyboardLook(input); }
         else { GamepadLook(input); }
