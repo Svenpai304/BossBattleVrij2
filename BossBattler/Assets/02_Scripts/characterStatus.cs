@@ -10,11 +10,13 @@ public class characterStatus : MonoBehaviour
     public int MaxHealth;
     public float MaxDashTime;
     public float MouseSensitivity;
+    public float StickLookDeadzone;
 
     [SerializeField] private GameObject keyboardLookReticle;
     [SerializeField] private GameObject gamepadLookArrow;
     public float gamepadArrowOffset;
     private GameObject lookObject;
+    private Transform gamepadArrow;
 
 
     public float Health { get { return health; } set { health = value; } }
@@ -42,6 +44,7 @@ public class characterStatus : MonoBehaviour
         {
             Debug.Log("Non-keyboard player added");
             lookObject = Instantiate(gamepadLookArrow, transform);
+            gamepadArrow = lookObject.GetComponentsInChildren<Transform>()[1];
             GamepadLook(Vector2.right);
         }
     }
@@ -84,8 +87,12 @@ public class characterStatus : MonoBehaviour
 
     private void GamepadLook(Vector2 dir)
     {
+        if (dir.sqrMagnitude < Mathf.Pow(StickLookDeadzone, 2)) { return; }
+
+        dir = dir.normalized;
         lookObject.transform.localPosition = (Vector3)(dir * gamepadArrowOffset);
-        //lookObject.GetComponentsInChildren<Transform>()[1].rotation = 
+        Debug.Log(Vector2.SignedAngle(Vector2.zero, dir));
+        gamepadArrow.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dir));
         LookDirection = dir;
     }
 

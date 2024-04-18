@@ -10,6 +10,8 @@ public class characterDash : MonoBehaviour
     Rigidbody2D rb;
 
     public float dashForce;
+    public float dashStartForce;
+    public float gravMultiplier;
 
     public bool dashing;
 
@@ -38,11 +40,17 @@ public class characterDash : MonoBehaviour
     private void StartDash()
     {
         dashing = true;
-        Physics2D.gravity = new Vector2 (0, jump.gravMultiplier);
+        jump.enabled = false;
+        rb.AddForce(status.LookDirection * dashStartForce);
+        Physics2D.gravity = new Vector2(0, 9.81f * gravMultiplier);
+
     }
 
     private void EndDash()
     {
         dashing = false;
+        jump.enabled = true;
+        Physics2D.gravity = new Vector2(0, 9.81f);
+
     }
 }
