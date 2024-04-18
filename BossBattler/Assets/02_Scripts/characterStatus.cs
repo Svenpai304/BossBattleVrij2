@@ -85,7 +85,7 @@ public class characterStatus : MonoBehaviour
         LookDirection = (Vector2)(lookObject.transform.position - transform.position).normalized;
     }
 
-    private void GamepadLook(Vector2 dir)
+    public void GamepadLook(Vector2 dir)
     {
         if (dir.sqrMagnitude < Mathf.Pow(StickLookDeadzone, 2)) { return; }
 

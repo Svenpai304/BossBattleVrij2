@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
@@ -10,6 +11,7 @@ public class characterMovement : MonoBehaviour
     [Header("Components")]
     [SerializeField] movementLimiter moveLimit;
     private Rigidbody2D body;
+    private BoxCollider2D collider;
     private Animator animator;
     characterGround ground;
 
@@ -23,6 +25,8 @@ public class characterMovement : MonoBehaviour
     [SerializeField, Range(0f, 100f)][Tooltip("How fast to stop when changing direction when in mid-air")] public float maxAirTurnSpeed = 80f;
     [SerializeField][Tooltip("Friction to apply against movement on stick")] private float friction;
     [SerializeField, Range(0f, 1f)][Tooltip("Threshold for dropping through platforms")] private float holdingDownThreshold = 0.7f;
+    [SerializeField] private LayerMask defaultExclude;
+    [SerializeField] private LayerMask descendingExclude;
 
     [Header("Options")]
     [Tooltip("When false, the charcter will skip acceleration and deceleration and instantly move and stop")] public bool useAcceleration;
@@ -40,7 +44,6 @@ public class characterMovement : MonoBehaviour
     [Header("Current State")]
     public bool onGround;
     public bool pressingKey;
-    public bool holdingDown;
 
     private void Awake()
     {
@@ -48,6 +51,7 @@ public class characterMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         ground = GetComponent<characterGround>();
+        collider = GetComponent<BoxCollider2D>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -59,8 +63,9 @@ public class characterMovement : MonoBehaviour
         {
             directionX = context.ReadValue<Vector2>().x;
 
-            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) { holdingDown = true; }
-            else { holdingDown = false; }
+            //Allows players to pass through platforms 
+            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) { collider.excludeLayers = descendingExclude; }
+            else { collider.excludeLayers = defaultExclude; }
         }
     }
 
@@ -162,7 +167,4 @@ public class characterMovement : MonoBehaviour
 
         body.velocity = velocity;
     }
-
-
-
 }

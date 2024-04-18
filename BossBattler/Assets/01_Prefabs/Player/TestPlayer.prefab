@@ -212,10 +212,17 @@ MonoBehaviour:
   maxAirTurnSpeed: 80
   friction: 0.12
   holdingDownThreshold: 0.7
+  defaultExclude:
+    serializedVersion: 2
+    m_Bits: 64
+  descendingExclude:
+    serializedVersion: 2
+    m_Bits: 192
   useAcceleration: 0
   itsTheIntro: 0
   directionX: 0
   velocity: {x: 0, y: 0}
+  platforms: []
   onGround: 0
   pressingKey: 0
   holdingDown: 0
@@ -265,7 +272,7 @@ MonoBehaviour:
   colliderOffset: {x: 0.41, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
 --- !u!114 &8066967508421131549
 MonoBehaviour:
   m_ObjectHideFlags: 0
