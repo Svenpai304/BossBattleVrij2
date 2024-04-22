@@ -11,7 +11,7 @@ public class characterMovement : MonoBehaviour
     [Header("Components")]
     [SerializeField] movementLimiter moveLimit;
     private Rigidbody2D body;
-    private BoxCollider2D collider;
+    private BoxCollider2D bc;
     private Animator animator;
     characterGround ground;
 
@@ -51,7 +51,7 @@ public class characterMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         ground = GetComponent<characterGround>();
-        collider = GetComponent<BoxCollider2D>();
+        bc = GetComponent<BoxCollider2D>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -64,8 +64,8 @@ public class characterMovement : MonoBehaviour
             directionX = context.ReadValue<Vector2>().x;
 
             //Allows players to pass through platforms 
-            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) { collider.excludeLayers = descendingExclude; }
-            else { collider.excludeLayers = defaultExclude; }
+            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) { bc.excludeLayers = descendingExclude; }
+            else { bc.excludeLayers = defaultExclude; }
         }
     }
 

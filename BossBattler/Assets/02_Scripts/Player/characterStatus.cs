@@ -30,7 +30,7 @@ public class characterStatus : MonoBehaviour
 
     [SerializeField, Unity.Collections.ReadOnly] private bool isKeyboard = false;
 
-    private void Start()
+    private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         PlayerInput playerInput = GetComponent<PlayerInput>();

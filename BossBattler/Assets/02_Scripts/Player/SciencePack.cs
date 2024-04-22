@@ -23,9 +23,14 @@ public class SciencePack : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext c)
     {
-        if(currentElements.Count < 2) { return; }
-        Debug.Log($"Firing elements: {currentElements.First().name} + {currentElements.Last().name}");
-        currentElements.Clear();
+        if (c.started)
+        {
+            if (currentElements.Count != 2) { return; }
+            ComboAttackEntry entry = ElementManager.GetAttackEntry(currentElements.First().id, currentElements.Last().id);
+            if (entry != null) { entry.Fire(status); }
+            else Debug.Log("Combo not found");
+            currentElements.Clear();
+        }
     }
 
     public void OnElement1(InputAction.CallbackContext c)

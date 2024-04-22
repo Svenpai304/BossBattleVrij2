@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81fcfe037e9b71948a8faf9a99b4a771, type: 3}
-  m_Name: Carbon
+  m_Name: Hydrogen
   m_EditorClassIdentifier: 
-  id: 2
-  elementName: Carbon
+  id: 1
+  elementName: Hydrogen
   icon: {fileID: 0}
