@@ -6,22 +6,24 @@ using UnityEngine.UIElements;
 
 public class PlayerConnector : MonoBehaviour
 {
+    public static PlayerConnector instance;
     PlayerInputManager im;
 
+    public List<CharacterStatus> players = new();
 
     private void Start()
     {
+        instance = this;
         im = PlayerInputManager.instance;
         im.onPlayerJoined += OnPlayerJoined;
     }
 
     public void OnPlayerJoined(PlayerInput input)
     {
-        //Debug.Log(input.ToString());
-        //if (input.devices[0] == Keyboard.current || input.devices[0] == Mouse.current)
-        //{
-        //    Debug.Log("Setting m&k controls");
-        //    Debug.Log(input.SwitchCurrentControlScheme(Keyboard.current, Mouse.current));
-        //}
+        CharacterStatus cs = input.GetComponent<CharacterStatus>();
+        if (cs != null)
+        {
+            players.Add(cs);
+        }
     }
 }

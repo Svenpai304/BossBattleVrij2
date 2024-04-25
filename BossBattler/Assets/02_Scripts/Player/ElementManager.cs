@@ -13,7 +13,6 @@ public class ElementManager : MonoBehaviour
     {
         instance = this;
         ComboAttackEntry[] attacks = Resources.FindObjectsOfTypeAll<ComboAttackEntry>();
-
         foreach (ComboAttackEntry attack in attacks)
         {
             attackDict.Add(attack.id, attack);
