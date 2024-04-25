@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class characterDash : MonoBehaviour
+public class CharacterDash : MonoBehaviour
 {
-    characterJump jump;
-    characterStatus status;
+    CharacterJump jump;
+    CharacterStatus status;
+    CharacterLook look;
     Rigidbody2D rb;
 
     public float dashForce;
@@ -18,8 +19,9 @@ public class characterDash : MonoBehaviour
 
     private void Start()
     {
-        jump = GetComponent<characterJump>();
-        status = GetComponent<characterStatus>();
+        jump = GetComponent<CharacterJump>();
+        status = GetComponent<CharacterStatus>();
+        look = GetComponent<CharacterLook>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -27,7 +29,7 @@ public class characterDash : MonoBehaviour
     {
         if (dashing)
         {
-            rb.AddForce(status.LookDirection * dashForce);
+            rb.AddForce(look.LookDirection * dashForce);
             status.DashTime = Mathf.Clamp(status.DashTime - Time.fixedDeltaTime, 0, status.MaxDashTime);
             if(status.DashTime == 0)
             {
@@ -52,7 +54,7 @@ public class characterDash : MonoBehaviour
         jump.enabled = false;
         if(status.DashTime == status.MaxDashTime)
         {
-            rb.AddForce(status.LookDirection * dashStartForce);
+            rb.AddForce(look.LookDirection * dashStartForce);
         }
         Physics2D.gravity = new Vector2(0, 9.81f * gravMultiplier);
 

@@ -5,15 +5,15 @@ using UnityEngine.InputSystem.Interactions;
 
 //This script handles moving the character on the X axis, both on the ground and in the air.
 
-public class characterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour
 {
 
     [Header("Components")]
-    [SerializeField] movementLimiter moveLimit;
+    [SerializeField] MovementLimiter moveLimit;
     private Rigidbody2D body;
     private BoxCollider2D bc;
     private Animator animator;
-    characterGround ground;
+    CharacterGround ground;
 
     [Header("Movement Stats")]
     [SerializeField, Range(0f, 20f)][Tooltip("Maximum movement speed")] public float maxSpeed = 10f;
@@ -50,7 +50,7 @@ public class characterMovement : MonoBehaviour
         //Find the character's Rigidbody and ground detection script
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        ground = GetComponent<characterGround>();
+        ground = GetComponent<CharacterGround>();
         bc = GetComponent<BoxCollider2D>();
     }
 

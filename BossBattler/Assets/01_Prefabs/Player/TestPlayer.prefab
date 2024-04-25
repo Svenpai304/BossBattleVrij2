@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4298726500760555847}
   - component: {fileID: 8987382485653265541}
   - component: {fileID: 5011379757760672600}
+  - component: {fileID: 2921832750783141837}
   m_Layer: 6
   m_Name: TestPlayer
   m_TagString: Player
@@ -180,17 +181,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
+  MaxPower: 0
   MaxDashTime: 3
-  MouseSensitivity: 0.03
-  StickLookDeadzone: 0.5
-  keyboardLookReticle: {fileID: 3503251779541145531, guid: 9123b7d99e7d115408c261d6adf7d27e, type: 3}
-  gamepadLookArrow: {fileID: 1684940156943448836, guid: 0ca6524efe1490a41a33eea951ee2e06, type: 3}
-  gamepadArrowOffset: 1.5
-  LookDirection: {x: 0, y: 0}
   health: 0
   power: 0
   dashTime: 0
-  isKeyboard: 0
 --- !u!114 &3408343712455569183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,8 +323,8 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2758795318876362246}
-        m_TargetAssemblyTypeName: characterStatus, Assembly-CSharp
+      - m_Target: {fileID: 2921832750783141837}
+        m_TargetAssemblyTypeName: CharacterLook, Assembly-CSharp
         m_MethodName: OnLook
         m_Mode: 0
         m_Arguments:
@@ -496,3 +491,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99cd59d24d600744a90d6c322578c77f, type: 2}
   - {fileID: 11400000, guid: 146ccae0f15f01d4eb58af06c7b1cfd4, type: 2}
   - {fileID: 11400000, guid: 7b31e7fcc3222614ca34b9b93f50d65a, type: 2}
+--- !u!114 &2921832750783141837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715701324383648053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812898105d6ddb54dbd9d380bb18a548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MouseSensitivity: 0.03
+  StickLookDeadzone: 0.5
+  keyboardLookReticle: {fileID: 3503251779541145531, guid: 9123b7d99e7d115408c261d6adf7d27e, type: 3}
+  gamepadLookArrow: {fileID: 1684940156943448836, guid: 0ca6524efe1490a41a33eea951ee2e06, type: 3}
+  gamepadArrowOffset: 2
+  LookDirection: {x: 0, y: 0}

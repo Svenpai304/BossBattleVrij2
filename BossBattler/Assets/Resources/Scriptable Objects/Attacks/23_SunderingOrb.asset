@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e4fe522b2cde64fa50c638651fda37, type: 3}
+  m_Name: 23_SunderingOrb
+  m_EditorClassIdentifier: 
+  id: 0200000003000000
+  effectObject: {fileID: 3776198725186283535, guid: e95e272153222424db81fd7d7d69367f, type: 3}

@@ -8,7 +8,7 @@ public class ComboAttackEntry : ScriptableObject
     public int[] id = new int[2];
     public GameObject effectObject;
 
-    public void Fire(characterStatus status)
+    public void Fire(CharacterStatus status)
     {
         Debug.Log("Using combo attack: " + id[0].ToString() + id[1].ToString());
         ComboAttack atk = Instantiate(effectObject).GetComponent<ComboAttack>();

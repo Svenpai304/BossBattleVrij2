@@ -6,14 +6,14 @@ using UnityEngine.InputSystem;
 
 public class SciencePack : MonoBehaviour
 {
-    characterStatus status;
+    CharacterStatus status;
 
     [SerializeField] private ComboElement[] elements = new ComboElement[3];
     [SerializeField] private Queue<ComboElement> currentElements = new Queue<ComboElement>();
 
     private void Start()
     {
-        status = GetComponent<characterStatus>();
+        status = GetComponent<CharacterStatus>();
     }
 
     public void ChangeElement(int index, ComboElement element)

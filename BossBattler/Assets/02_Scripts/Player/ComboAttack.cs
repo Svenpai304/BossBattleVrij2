@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class ComboAttack : MonoBehaviour
 {
-    private characterStatus status;
+    private CharacterStatus status;
 
-    public abstract void OnFire(characterStatus _status);
+    public abstract void OnFire(CharacterStatus _status);
 }

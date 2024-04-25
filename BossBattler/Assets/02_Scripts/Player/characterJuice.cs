@@ -4,11 +4,11 @@ using UnityEngine;
 
 //This script handles purely aesthetic things like particles, squash & stretch, and tilt
 
-public class characterJuice : MonoBehaviour
+public class CharacterJuice : MonoBehaviour
 {
     [Header("Components")]
-    characterMovement moveScript;
-    characterJump jumpScript;
+    CharacterMovement moveScript;
+    CharacterJump jumpScript;
     [SerializeField] Animator myAnimator;
     [SerializeField] GameObject characterSprite;
 
@@ -51,8 +51,8 @@ public class characterJuice : MonoBehaviour
 
     void Start()
     {
-        moveScript = GetComponent<characterMovement>();
-        jumpScript = GetComponent<characterJump>();
+        moveScript = GetComponent<CharacterMovement>();
+        jumpScript = GetComponent<CharacterJump>();
     }
 
     void Update()
