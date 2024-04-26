@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
 {
     CharacterLook cl;
+    [HideInInspector] public CharacterUI ui;
 
     public int MaxHealth;
     public float MaxPower;
@@ -29,8 +30,10 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     private float power;
     private float dashTime;
 
-    private void Start()
+    public void Setup(CharacterUI ui)
     {
+        this.ui = ui;
+        this.ui.Setup(this);
         cl = GetComponent<CharacterLook>();
         ResetStatus();
     }
@@ -38,6 +41,7 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     private void FixedUpdate()
     {
         power = Mathf.Clamp(power + PowerRegen * PowerRegenMult * Time.deltaTime, 0, MaxPower);
+        ui.SetPowerBar(power, MaxPower);
     }
 
 
@@ -61,17 +65,19 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         if (Invulnerable) { return; }
         damage *= DamageTakenMult;
         health = Mathf.Clamp(health - damage, 0, MaxHealth);
+        ui.SetHealthBar(health, MaxHealth);
         if (health == 0) { Die(); }
     }
 
     public void HealDamage(float damage)
     {
         health = Mathf.Clamp(health + damage, 0, MaxHealth);
+        ui.SetHealthBar(health, MaxHealth);
         if (health == 0) { Die(); }
     }
 
     private void Die()
     {
-
+        Debug.Log("ouchie");
     }
 }

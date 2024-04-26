@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: 22_Swords
   m_EditorClassIdentifier: 
   id: 0200000002000000
+  powerCost: 20
   effectObject: {fileID: 7238660397512196238, guid: 3f848666c19f44a4691663e40caf3fca, type: 3}

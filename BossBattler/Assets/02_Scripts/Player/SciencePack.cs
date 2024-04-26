@@ -7,13 +7,15 @@ using UnityEngine.InputSystem;
 public class SciencePack : MonoBehaviour
 {
     CharacterStatus status;
-
+    CharacterUI ui;
     [SerializeField] private ComboElement[] elements = new ComboElement[3];
     [SerializeField] private Queue<ComboElement> currentElements = new Queue<ComboElement>();
 
     private void Start()
     {
         status = GetComponent<CharacterStatus>();
+        ui = status.ui;
+        ui.SetOwnedElements(elements);
     }
 
     public void ChangeElement(int index, ComboElement element)
@@ -30,6 +32,7 @@ public class SciencePack : MonoBehaviour
             if (entry != null) { entry.Fire(status); }
             else Debug.Log("Combo not found");
             currentElements.Clear();
+            ui.ClearActiveElements();
         }
     }
 
@@ -57,6 +60,11 @@ public class SciencePack : MonoBehaviour
             currentElements.Dequeue();
         }
         currentElements.Enqueue(elements[index]);
+        if (currentElements.Count > 1)
+        {
+            ui.SetActiveElement(0, currentElements.Last());
+        }
+        ui.SetActiveElement(1, currentElements.First());
     }
 
 }
