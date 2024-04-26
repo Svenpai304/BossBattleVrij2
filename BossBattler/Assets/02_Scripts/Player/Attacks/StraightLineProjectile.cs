@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class StraightLineProjectile : MonoBehaviour
 {
-    private IStatus status;
+    private IProjectileOwner owner;
+    private int maxHits;
     private float damage;
     private float speed;
     private Vector2 direction;
@@ -32,20 +33,21 @@ public class StraightLineProjectile : MonoBehaviour
 
     public void OnCollision(Collider2D other)
     {
-        var damageable = other.gameObject.GetComponent<IDamageable>();
-        if (damageable != null && damageable != status)
+        if(owner.OnHit(other))
         {
-            damageable.TakeDamage(damage * status.DamageDealMult);
+            maxHits--;
         }
-        Die();
+        if (maxHits <= 0)
+        {
+            Die();
+        }
     }
 
-    public virtual void Setup(float _damage, float _speed, Vector2 _direction, Vector2 _position, IStatus _status)
+    public virtual void Setup(int maxHits, float _speed, Vector2 _direction, Vector2 _position, IProjectileOwner _owner)
     {
-        damage = _damage;
         speed = _speed;
         direction = _direction;
-        status = _status;
+        owner = _owner;
 
         transform.position = _position;
         if (rotateTransform != null)
@@ -62,4 +64,8 @@ public class StraightLineProjectile : MonoBehaviour
     {
         Destroy(gameObject);
     }
+}
+public interface IProjectileOwner
+{
+    public bool OnHit(Collider2D other);
 }

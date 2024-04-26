@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class A22_Swords : ComboAttack
+public class A22_Swords : ComboAttack, IProjectileOwner
 {
     private CharacterStatus status;
     public GameObject swordPrefab;
@@ -34,6 +34,17 @@ public class A22_Swords : ComboAttack
     private void FireSword()
     {
         Vector2 direction = (status.LookDirection + Random.insideUnitCircle * spread).normalized;
-        Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(damage, speed, direction, transform.position, status);
+        Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(1, speed, direction, transform.position, this);
+    }
+
+    public bool OnHit(Collider2D other)
+    {
+        var damageable = other.gameObject.GetComponent<IDamageable>();
+        if (damageable != null && (object)damageable != status)
+        {
+            damageable.TakeDamage(damage * status.DamageDealMult);
+        }
+        return true;
     }
 }
+
