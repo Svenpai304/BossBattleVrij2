@@ -181,11 +181,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  MaxPower: 0
+  MaxPower: 100
   MaxDashTime: 3
-  health: 0
-  power: 0
-  dashTime: 0
+  MinDashTime: 0
+  PowerRegen: 8
 --- !u!114 &3408343712455569183
 MonoBehaviour:
   m_ObjectHideFlags: 0

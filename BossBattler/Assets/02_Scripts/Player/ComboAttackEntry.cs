@@ -6,11 +6,15 @@ using UnityEngine;
 public class ComboAttackEntry : ScriptableObject
 {
     public int[] id = new int[2];
+    public float powerCost;
     public GameObject effectObject;
 
     public void Fire(CharacterStatus status)
     {
         Debug.Log("Using combo attack: " + id[0].ToString() + id[1].ToString());
+
+        if(status.Power < powerCost) { return; }
+        status.Power -= powerCost;
         ComboAttack atk = Instantiate(effectObject).GetComponent<ComboAttack>();
         if(atk != null)
         {

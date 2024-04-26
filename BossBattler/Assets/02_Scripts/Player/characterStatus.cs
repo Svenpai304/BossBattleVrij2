@@ -12,7 +12,6 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     public int MaxHealth;
     public float MaxPower;
     public float MaxDashTime;
-    public float MinDashTime;
     public float PowerRegen;
 
     public float DamageDealMult { get; set; }
@@ -36,9 +35,9 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         ResetStatus();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        power = Mathf.Clamp(power + PowerRegen * PowerRegenMult, 0, MaxPower);
+        power = Mathf.Clamp(power + PowerRegen * PowerRegenMult * Time.deltaTime, 0, MaxPower);
     }
 
 
