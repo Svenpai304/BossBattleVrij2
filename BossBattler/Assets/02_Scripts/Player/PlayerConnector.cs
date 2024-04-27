@@ -7,12 +7,12 @@ using UnityEngine.UIElements;
 public class PlayerConnector : MonoBehaviour
 {
     public static PlayerConnector instance;
-    PlayerInputManager im;
+    public PlayerInputManager im;
     [SerializeField] private List<CharacterUI> characterUIs = new List<CharacterUI>();
 
     public List<CharacterStatus> players = new();
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
         im = PlayerInputManager.instance;
