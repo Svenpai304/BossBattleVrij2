@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class A22_Swords : ComboAttack, IProjectileOwner
 {
-    private CharacterStatus status;
+    protected CharacterStatus status;
     public GameObject swordPrefab;
     public int swordCount;
     public float interval;
@@ -38,7 +38,7 @@ public class A22_Swords : ComboAttack, IProjectileOwner
         Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(1, speed, direction, transform.position, this);
     }
 
-    public bool OnHit(Collider2D other)
+    public virtual bool OnHit(Collider2D other)
     {
         var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable != null && (object)damageable != status)
