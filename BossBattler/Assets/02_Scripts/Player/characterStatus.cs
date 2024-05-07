@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Unity.Collections;
@@ -9,6 +10,8 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
 {
     CharacterLook cl;
     [HideInInspector] public CharacterUI ui;
+
+    List<CharacterBuff> Buffs = new List<CharacterBuff>();
 
     public int MaxHealth;
     public float MaxPower;
@@ -63,9 +66,32 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         }
         power = Mathf.Clamp(power + PowerRegen * PowerRegenMult * mod * Time.deltaTime, 0, MaxPower);
         ui.SetPowerBar(power, MaxPower);
+        UpdateBuffs();
     }
 
-
+    private void UpdateBuffs()
+    {
+        DamageDealMult = 1f;
+        DamageTakenMult = 1f;
+        GroundSpeedMult = 1f;
+        PowerRegenMult = 1f;
+        foreach (CharacterBuff buff in new List<CharacterBuff>(Buffs))
+        {
+            buff.Duration -= Time.deltaTime;
+            if (buff.Duration < 0f)
+            {
+                //(Ryan) [07/05/24 17:53] Werkt dit okay met memory om gewoon de class uit de lijst te halen?
+                Buffs.Remove(buff);
+            } else
+            {
+                for (int i = 0; i < buff.CurStacks; i++) //For each stack of this buff
+                {
+                    DamageDealMult *= buff.DamageDone;
+                    DamageTakenMult *= buff.DamageTaken;
+                }
+            }
+        }
+    }
 
     public void ResetStatus()
     {
@@ -100,5 +126,69 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     private void Die()
     {
         Debug.Log("ouchie");
+    }
+
+    public void BuffDamageTaken(string _ID, float _dur, int _maxStacks, float BuffMod)
+    {
+        CharacterBuff oldBuff = getBuff(_ID);
+        if (oldBuff == null)
+        {
+            CharacterBuff newBuff = new CharacterBuff(_ID, _dur, _maxStacks, BuffMod < 1f);
+            newBuff.DamageTaken = BuffMod;
+            Buffs.Add(newBuff);
+        } else
+        {
+            oldBuff.CurStacks = Mathf.Min(_maxStacks, oldBuff.CurStacks + 1);
+            oldBuff.Duration = Mathf.Max(_dur, oldBuff.Duration);
+            if (BuffMod < 1f) //If the overwriting buff is stronger than the old buff, overwrite old buff
+            {
+                if (BuffMod < oldBuff.DamageTaken) oldBuff.DamageTaken = BuffMod;
+            } else
+            {
+                if (BuffMod > oldBuff.DamageTaken) oldBuff.DamageTaken = BuffMod;
+            }
+        }
+    }
+    public void BuffDamageDone(string _ID, float _dur, int _maxStacks, float BuffMod)
+    {
+        CharacterBuff oldBuff = getBuff(_ID);
+        if (oldBuff == null)
+        {
+            CharacterBuff newBuff = new CharacterBuff(_ID, _dur, _maxStacks, BuffMod > 1f);
+            newBuff.DamageDone = BuffMod;
+            Buffs.Add(newBuff);
+        }
+    }
+    public CharacterBuff getBuff(string _ID)
+    {
+        foreach (CharacterBuff buff in Buffs)
+        {
+            if (buff.ID.Equals(_ID)) return buff;
+        }
+        return null;
+    }
+
+    public float Dist(CharacterStatus sta)
+    {
+        //Distance to other player
+        return (transform.position - sta.transform.position).magnitude;
+    }
+}
+
+public class CharacterBuff {
+    public int MaxStacks = 1;
+    public int CurStacks = 0;
+    public string ID = "";
+    public bool isPositive = true;
+    public float Duration;
+    public float DamageTaken = 1f;
+    public float DamageDone = 1f;
+
+    public CharacterBuff(string _ID, float _dur, int _maxStacks, bool _positive)
+    {
+        ID = _ID;
+        isPositive = _positive;
+        Duration = _dur;
+        MaxStacks = _maxStacks;
     }
 }

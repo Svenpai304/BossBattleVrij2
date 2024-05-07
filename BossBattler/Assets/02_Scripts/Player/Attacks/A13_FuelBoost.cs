@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class A13_FuelBoost : SimpleAttack
 {
+    public float BuffRange = 7f;
     protected override void CreateAttack()
     {
         Instantiate(prefab).GetComponent<VFX>().Setup(transform.position);
+        //Hier moet de buff worden uitgedeeld.
+        foreach (CharacterStatus stat in PlayerConnector.instance.players)
+        {
+            if (status.Dist(stat) < BuffRange)
+            {
+                stat.BuffDamageDone("FuelBoostDamageDone", 9f, 1, 1f + (0.3f*power));
+                stat.BuffDamageDone("FuelBoostDamageTaken", 9f, 1, 1f - (0.3f * power));
+            }
+        }
     }
 
     public override bool OnHit(Collider2D other)
