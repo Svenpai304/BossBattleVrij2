@@ -180,11 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f16e29a4c205240a30ec9fd35de959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ui: {fileID: 0}
   MaxHealth: 100
   MaxPower: 100
   MaxDashTime: 3
-  MinDashTime: 0
-  PowerRegen: 8
+  PowerRegen: 20
 --- !u!114 &3408343712455569183
 MonoBehaviour:
   m_ObjectHideFlags: 0

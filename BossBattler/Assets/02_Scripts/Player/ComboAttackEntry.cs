@@ -13,8 +13,8 @@ public class ComboAttackEntry : ScriptableObject
     {
         Debug.Log("Using combo attack: " + id[0].ToString() + id[1].ToString());
 
-        if(status.Power < powerCost) { return; }
-        status.Power -= powerCost;
+        //if(status.Power < powerCost) { return; }
+        status.usePower(powerCost);
         ComboAttack atk = Instantiate(effectObject).GetComponent<ComboAttack>();
         if(atk != null)
         {

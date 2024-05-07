@@ -29,7 +29,22 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     private float health;
     private float power;
     private float dashTime;
+    private float powerRegenDelay;
 
+    public float getPowerDamageMod()
+    {
+        return (power / MaxPower)*1.2f;
+    }
+    public void usePower(float pow)
+    {
+        Power -= pow;
+        powerRegenDelay = getDefaultPowerRegenDelay();
+    }
+
+    private float getDefaultPowerRegenDelay()
+    {
+        return 3f;
+    }
     public void Setup(CharacterUI ui)
     {
         this.ui = ui;
@@ -40,7 +55,13 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
 
     private void FixedUpdate()
     {
-        power = Mathf.Clamp(power + PowerRegen * PowerRegenMult * Time.deltaTime, 0, MaxPower);
+        float mod = 1f;
+        if (powerRegenDelay > 0f)
+        {
+            powerRegenDelay -= Time.deltaTime;
+            mod = ((getDefaultPowerRegenDelay()-powerRegenDelay) /getDefaultPowerRegenDelay())*0.4f;
+        }
+        power = Mathf.Clamp(power + PowerRegen * PowerRegenMult * mod * Time.deltaTime, 0, MaxPower);
         ui.SetPowerBar(power, MaxPower);
     }
 

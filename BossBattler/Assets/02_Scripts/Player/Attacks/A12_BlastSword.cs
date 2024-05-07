@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class A22_Swords : ComboAttack, IProjectileOwner
+public class A12_Swords : ComboAttack, IProjectileOwner
 {
     private CharacterStatus status;
     public GameObject swordPrefab;
     public int swordCount;
-    public float interval;
-    public float spread;
+    public float spreadAngle;
     public float damage;
     public float speed;
 
@@ -23,19 +22,18 @@ public class A22_Swords : ComboAttack, IProjectileOwner
 
     private IEnumerator Process()
     {
-        while (swordCount > 0)
-        {
-            FireSword();
-            swordCount--;
-            yield return new WaitForSeconds(interval);
+        for (float a = -spreadAngle + ((spreadAngle * 1f) / swordCount); a <= spreadAngle; a+= (spreadAngle*2f)/swordCount)
+        { //Fire even shotgun spread
+            FireSword(a);
         }
         Destroy(this);
+        yield break;
     }
 
-    private void FireSword()
+    private void FireSword(float ang)
     {
-        Vector2 direction = (status.LookDirection + Random.insideUnitCircle * spread).normalized;
-        Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(1, speed, direction, transform.position, this);
+        Vector2 direction = (status.LookDirection).normalized;
+        Instantiate(swordPrefab).GetComponent<BlastSwordProjectile>().Setup(1, speed, direction, ang, transform.position, this);
     }
 
     public bool OnHit(Collider2D other)
