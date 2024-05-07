@@ -7,6 +7,7 @@ public class ComboAttackEntry : ScriptableObject
 {
     public int[] id = new int[2];
     public float powerCost;
+    public float castingTime;
     public GameObject effectObject;
 
     public void Fire(CharacterStatus status)

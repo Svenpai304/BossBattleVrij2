@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class A11_HydroSphere : SimpleAttack
+public class A13_FuelBoost : SimpleAttack
 {
     protected override void CreateAttack()
     {
-        Instantiate(prefab).GetComponent<HydroSphere>().Setup(power, transform, transform.position, this);
+        Instantiate(prefab).GetComponent<VFX>().Setup(transform.position);
     }
 
     public override bool OnHit(Collider2D other)
