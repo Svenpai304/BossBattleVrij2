@@ -32,7 +32,7 @@ public class StateMachine
     {
         foreach (Transition transition in activeTransitions)
         {
-            if (transition.Evalutate())
+            if (transition.Evaluate() && transition.fromState == currentState)
             {
                 SwitchState(transition.toState);
                 return;
@@ -83,7 +83,7 @@ public class Transition
         this.toState = toState;
         this.condition = condition;
     }
-    public bool Evalutate()
+    public bool Evaluate()
     {
         return condition();
     }
