@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: 12_BlastSword
   m_EditorClassIdentifier: 
   id: 0100000002000000
-  effectObject: {fileID: 3776198725186283535, guid: e95e272153222424db81fd7d7d69367f, type: 3}
+  powerCost: 25
+  castingTime: 0.3
+  effectObject: {fileID: 7238660397512196238, guid: 9965dc04a5818d149b7186df2a2ac976, type: 3}

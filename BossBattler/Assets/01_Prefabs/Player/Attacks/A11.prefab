@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8715241905651289918}
-  - component: {fileID: 4529553721969615161}
+  - component: {fileID: 7243978906641516850}
   m_Layer: 0
-  m_Name: A22
+  m_Name: A11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,13 +26,13 @@ Transform:
   m_GameObject: {fileID: 7238660397512196238}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.18993172, y: 0.22550628, z: 6.5319123}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4529553721969615161
+--- !u!114 &7243978906641516850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,12 +41,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7238660397512196238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d82c321ccedb6dc4fa4fcd087dcec98f, type: 3}
+  m_Script: {fileID: 11500000, guid: 79a098bd2b170ae4383fa138bb07675e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordPrefab: {fileID: 2894796387317689403, guid: c842b60e420c4bb4b988fa65f807b79a, type: 3}
-  swordCount: 5
-  interval: 0.1
-  spread: 0.1
-  damage: 10
-  speed: 25
+  prefab: {fileID: 2894796387317689403, guid: 5e18d296d99ca814784b0d435c1ff399, type: 3}
+  power: 40

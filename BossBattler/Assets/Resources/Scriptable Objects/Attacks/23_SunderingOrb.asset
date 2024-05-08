@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: 23_SunderingOrb
   m_EditorClassIdentifier: 
   id: 0200000003000000
-  powerCost: 0
-  effectObject: {fileID: 3776198725186283535, guid: e95e272153222424db81fd7d7d69367f, type: 3}
+  powerCost: 30
+  castingTime: 0.3
+  effectObject: {fileID: 7238660397512196238, guid: 2443b3b9eed77a2468f636b8807aaa42, type: 3}

@@ -9,6 +9,7 @@ public class StraightLineProjectile : MonoBehaviour
     private int maxHits;
     private float damage;
     private float speed;
+    [SerializeField] private float accel;
     private Vector2 direction;
     public float lifetime = 20;
 
@@ -18,6 +19,7 @@ public class StraightLineProjectile : MonoBehaviour
     private void FixedUpdate()
     {
         transform.Translate(direction * speed * Time.deltaTime);
+        speed += accel * Time.deltaTime;
         lifetime -= Time.deltaTime;
         if (lifetime <= 0)
         {

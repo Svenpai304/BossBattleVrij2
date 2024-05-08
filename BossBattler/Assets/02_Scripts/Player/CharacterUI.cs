@@ -27,6 +27,7 @@ public class CharacterUI : MonoBehaviour
     public void SetPowerBar(float value, float max)
     {
         powerBar.fillAmount = value / max;
+        powerBar.color = new Color(0.5f-(value/max), (value / max)*1.3f-0.3f, 0.5f+(value / max)*0.5f);
     }
 
     public void SetActiveElement(int index, ComboElement element)
