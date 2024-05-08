@@ -583,35 +583,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4480215344013824983, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6489126343876182884, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_Name
       value: Electric Golem
       objectReference: {fileID: 0}
+    - target: {fileID: 8119072121954038497, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8119072121954038497, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6489126343876182884, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 89080608}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
---- !u!1 &89080607 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6489126343876182884, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
-  m_PrefabInstance: {fileID: 89080606}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &89080608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 89080607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af42586c86ef3847beb79176b5fb262, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &105815007
 GameObject:
   m_ObjectHideFlags: 0

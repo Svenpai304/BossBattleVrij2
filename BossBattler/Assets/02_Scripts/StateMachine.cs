@@ -15,10 +15,12 @@ using Unity.VisualScripting;
 /// Each frame we first check for transitions, then we update the currentState
 /// I created two SwitchState implementates, one by Type and one by interface, not necessary but now you can choose which one you like better
 /// </summary>
+/// 
+
+// Edit by Sven Wels:
+// Tore out transition system completely because it was annoying me
 public class StateMachine
 {
-    private List<Transition> allTransitions = new List<Transition>();
-    private List<Transition> activeTransitions = new List<Transition>();
     private IState currentState;
     private Dictionary<Type, IState> stateCollection = new Dictionary<Type, IState>();
     public StateMachine(params IState[] states)
@@ -30,62 +32,22 @@ public class StateMachine
     }
     public void OnFixedUpdate()
     {
-        foreach (Transition transition in activeTransitions)
-        {
-            if (transition.Evaluate() && transition.fromState == currentState)
-            {
-                SwitchState(transition.toState);
-                return;
-            }
-        }
         currentState?.OnUpdate();
     }
     public void SwitchState(System.Type newStateType)
     {
-        if (stateCollection.ContainsKey(newStateType))
-        {
-            SwitchState(stateCollection[newStateType]);
-        }
-        else
-        {
-            Debug.LogError($"State {newStateType.ToString()} not found in stateCollection");
-        }
+        SwitchState(stateCollection[newStateType]);
     }
     public void SwitchState(IState newState)
     {
+        Debug.Log("Transitioning to state: " + newState.ToString());
         currentState?.OnExit();
         currentState = newState;
-        activeTransitions = allTransitions.FindAll(x => x.fromState == currentState || x.fromState == null);
         currentState?.OnEnter();
     }
     public void AddState(IState state)
     {
         stateCollection.Add(state.GetType(), state);
-    }
-    public void AddTransition(Transition transition)
-    {
-        allTransitions.Add(transition);
-    }
-}
-/// <summary>
-/// The Transition class allows to inject Transitions into the Statemachine.
-/// In this way the state themselves don't know about transitions which keeps states oblivious to eachother.
-/// We can pass a condition along with the transition, either in lamba-format or just a function which returns a boolean.
-/// </summary>
-public class Transition
-{
-    public IState fromState;
-    public IState toState;
-    public Func<bool> condition;
-    public Transition(IState fromState, IState toState, Func<bool> condition)
-    {
-        this.fromState = fromState;
-        this.toState = toState;
-        this.condition = condition;
-    }
-    public bool Evaluate()
-    {
-        return condition();
     }
 }
 /// <summary>
