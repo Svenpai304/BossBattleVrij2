@@ -19,7 +19,7 @@ public class HydroSphere : MonoBehaviour
     private void FixedUpdate()
     {
         sizeCurrent -= sizeReduction * Time.deltaTime;
-        transform.localScale = new Vector3(sizeCurrent, sizeCurrent, 1);
+        transform.localScale = new Vector3(sizeCurrent, sizeCurrent, 1)*(0.5f+defensivePower);
 
         lifetime -= Time.deltaTime;
         if (lifetime <= 0)

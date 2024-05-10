@@ -43,11 +43,13 @@ public class StraightLineProjectile : MonoBehaviour
         }
     }
 
-    public virtual void Setup(int maxHits, float _speed, Vector2 _direction, Vector2 _position, IProjectileOwner _owner)
+    public virtual void Setup(float PowerLevel, int maxHits, float _speed, Vector2 _direction, Vector2 _position, IProjectileOwner _owner)
     {
         speed = _speed;
         direction = _direction;
         owner = _owner;
+
+        transform.localScale = new Vector3(0.5f+PowerLevel, 0.5f+PowerLevel, 1);
 
         transform.position = _position;
         if (rotateTransform != null)

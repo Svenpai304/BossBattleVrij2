@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2894796387317689403, guid: 5e18d296d99ca814784b0d435c1ff399, type: 3}
-  power: 40
+  power: 1

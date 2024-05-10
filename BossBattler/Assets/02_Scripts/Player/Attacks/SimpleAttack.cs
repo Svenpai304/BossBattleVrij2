@@ -7,7 +7,7 @@ public class SimpleAttack : ComboAttack, IProjectileOwner
     //The Simple Attack simply creates an object
     protected CharacterStatus status;
     public GameObject prefab;
-    public float power = 40f;
+    public float power = 1f;
     public override void OnFire(CharacterStatus _status)
     {
         power *= _status.getPowerDamageMod();

@@ -10,6 +10,7 @@ public class CharacterJump : MonoBehaviour
     private CharacterGround ground;
     [HideInInspector] public Vector2 velocity;
     private CharacterJuice juice;
+    public CharacterStatus status;
     [SerializeField] MovementLimiter moveLimit;
 
     [Header("Jumping Stats")]
@@ -126,7 +127,7 @@ public class CharacterJump : MonoBehaviour
     private void setPhysics()
     {
         //Determine the character's gravity scale, using the stats provided. Multiply it by a gravMultiplier, used later
-        Vector2 newGravity = new Vector2(0, (-2 * jumpHeight) / (timeToJumpApex * timeToJumpApex));
+        Vector2 newGravity = new Vector2(0, (-2 * GetJumpHeight()) / (timeToJumpApex * timeToJumpApex));
         body.gravityScale = (newGravity.y / Physics2D.gravity.y) * gravMultiplier;
     }
 
@@ -215,7 +216,10 @@ public class CharacterJump : MonoBehaviour
         //But clamp the Y variable within the bounds of the speed limit, for the terminal velocity assist option
         body.velocity = new Vector3(velocity.x, Mathf.Clamp(velocity.y, -speedLimit, 100));
     }
-
+    public float GetJumpHeight()
+    {
+        return jumpHeight;
+    }
     private void DoAJump()
     {
 
@@ -230,7 +234,7 @@ public class CharacterJump : MonoBehaviour
             canJumpAgain = (maxAirJumps == 1 && canJumpAgain == false);
 
             //Determine the power of the jump, based on our gravity and stats
-            jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * body.gravityScale * jumpHeight);
+            jumpSpeed = Mathf.Sqrt(-2f * Physics2D.gravity.y * body.gravityScale * GetJumpHeight());
 
             //If Kit is moving up or down when she jumps (such as when doing a double jump), change the jumpSpeed;
             //This will ensure the jump is the exact same strength, no matter your velocity.

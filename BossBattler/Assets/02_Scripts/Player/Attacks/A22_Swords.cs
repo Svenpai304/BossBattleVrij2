@@ -11,9 +11,11 @@ public class A22_Swords : ComboAttack, IProjectileOwner
     public float spread;
     public float damage;
     public float speed;
+    private float PowerLevel;
 
     public override void OnFire(CharacterStatus _status)
     {
+        PowerLevel = _status.getPowerDamageMod();
         damage *= _status.getPowerDamageMod();
         transform.position = _status.transform.position;
         transform.parent = _status.transform;
@@ -35,7 +37,7 @@ public class A22_Swords : ComboAttack, IProjectileOwner
     private void FireSword()
     {
         Vector2 direction = (status.LookDirection + Random.insideUnitCircle * spread).normalized;
-        Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(1, speed, direction, transform.position, this);
+        Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(PowerLevel, 1, speed, direction, transform.position, this);
     }
 
     public virtual bool OnProjectileHit(Collider2D other)

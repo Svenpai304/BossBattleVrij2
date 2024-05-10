@@ -7,7 +7,7 @@ public class A13_FuelBoost : SimpleAttack
     public float BuffRange = 7f;
     protected override void CreateAttack()
     {
-        Instantiate(prefab).GetComponent<VFX>().Setup(transform.position);
+        Instantiate(prefab).GetComponent<VFX>().Setup(status.getPowerDamageMod(),transform.position);
         //Hier moet de buff worden uitgedeeld.
         foreach (CharacterStatus stat in PlayerConnector.instance.players)
         {

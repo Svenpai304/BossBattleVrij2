@@ -185,6 +185,8 @@ MonoBehaviour:
   MaxPower: 100
   MaxDashTime: 3
   PowerRegen: 20
+  isCasting: 0
+  health: 0
 --- !u!114 &3408343712455569183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveLimit: {fileID: 8066967508421131549}
+  status: {fileID: 2758795318876362246}
   maxSpeed: 10
   maxAcceleration: 52
   maxDecceleration: 52
@@ -233,6 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   velocity: {x: 0, y: 0}
+  status: {fileID: 2758795318876362246}
   moveLimit: {fileID: 8066967508421131549}
   jumpHeight: 5.5
   timeToJumpApex: 0.302

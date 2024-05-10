@@ -54,7 +54,7 @@ public class CharacterDash : MonoBehaviour
         jump.enabled = false;
         if(status.DashTime == status.MaxDashTime)
         {
-            rb.AddForce(look.LookDirection * dashStartForce);
+            rb.AddForce(look.LookDirection * dashStartForce * status.GroundSpeedMult);
         }
         Physics2D.gravity = new Vector2(0, 9.81f * gravMultiplier);
 
