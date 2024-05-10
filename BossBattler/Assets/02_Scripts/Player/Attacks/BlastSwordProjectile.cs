@@ -37,7 +37,7 @@ public class BlastSwordProjectile : MonoBehaviour
     }
     public void OnCollision(Collider2D other)
     {
-        if(owner.OnHit(other))
+        if(owner.OnProjectileHit(other))
         {
             maxHits--;
         }

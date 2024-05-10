@@ -24,12 +24,12 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     public float PowerRegenMult { get; set; }
     public bool Invulnerable { get; set; }
 
-    public float Health { get { return health; } }
+    public float Health { get { return health; } set { health = value; } }
     public float Power { get { return power; } set { power = value; } }
     public float DashTime { get { return dashTime; } set { dashTime = value; } }
     public Vector2 LookDirection { get { return cl.LookDirection; } }
 
-    private float health;
+    [SerializeField]private float health;
     private float power;
     private float dashTime;
     private float powerRegenDelay;

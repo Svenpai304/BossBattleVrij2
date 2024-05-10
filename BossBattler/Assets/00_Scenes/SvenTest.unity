@@ -545,11 +545,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3074663229730240226, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.471178
+      value: 5.88
       objectReference: {fileID: 0}
     - target: {fileID: 3074663229730240226, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.6317902
+      value: 5.73
       objectReference: {fileID: 0}
     - target: {fileID: 3074663229730240226, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -586,7 +586,7 @@ PrefabInstance:
     - target: {fileID: 4480215344013824983, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6200000, guid: 4fcc8271de674134d8ce39b7efcbbd8d, type: 2}
     - target: {fileID: 6489126343876182884, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_Name
       value: Electric Golem
@@ -597,7 +597,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8119072121954038497, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 128
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493728877686724348, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: MaxHealth
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

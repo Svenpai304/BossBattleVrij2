@@ -29,7 +29,7 @@ public class SimpleAttack : ComboAttack, IProjectileOwner
         Instantiate(prefab).GetComponent<HydroSphere>().Setup(power, transform, transform.position, this);
     }
 
-    public virtual bool OnHit(Collider2D other)
+    public virtual bool OnProjectileHit(Collider2D other)
     {
         /*
          * (Ryan) [07/05 16:36] Weet niet precies wat ik hier mee moet

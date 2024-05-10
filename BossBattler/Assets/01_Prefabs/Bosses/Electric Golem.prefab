@@ -182,6 +182,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 8119072121954038497}
   currentTarget: {fileID: 0}
+  relocateDestination: {x: 0, y: 0}
+  groundCheckLength: 5
+  groundCheckOffset: 3.27
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 136
+  isGrounded: 0
+  arenaMinX: -20
+  arenaMinY: 0
+  arenaMaxX: 20
+  arenaMaxY: 10
+  MaxHealth: 200
   ChargeYThreshold: 3
 --- !u!61 &4480215344013824983
 BoxCollider2D:
@@ -202,10 +214,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 191
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 191
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -226,5 +238,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.11, y: 9.22}
+  m_Size: {x: 6.54, y: 9.22}
   m_EdgeRadius: 0

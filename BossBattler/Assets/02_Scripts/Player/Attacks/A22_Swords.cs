@@ -38,14 +38,16 @@ public class A22_Swords : ComboAttack, IProjectileOwner
         Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(1, speed, direction, transform.position, this);
     }
 
-    public virtual bool OnHit(Collider2D other)
+    public virtual bool OnProjectileHit(Collider2D other)
     {
         var damageable = other.gameObject.GetComponent<IDamageable>();
-        if (damageable != null && (object)damageable != status)
+        if (damageable != null && damageable != (IDamageable)status)
         {
+            Debug.Log("Hit damageable");
             damageable.TakeDamage(damage * status.DamageDealMult);
+            return true;
         }
-        return true;
+        return false;
     }
 }
 
