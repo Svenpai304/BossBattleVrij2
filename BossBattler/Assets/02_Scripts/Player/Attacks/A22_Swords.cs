@@ -40,7 +40,7 @@ public class A22_Swords : ComboAttack, IProjectileOwner
         Instantiate(swordPrefab).GetComponent<StraightLineProjectile>().Setup(PowerLevel, 1, speed, direction, transform.position, this);
     }
 
-    public virtual bool OnProjectileHit(Collider2D other)
+    public virtual bool OnProjectileHit(Collider2D other, GameObject p)
     {
         var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable != null && damageable != (IDamageable)status)

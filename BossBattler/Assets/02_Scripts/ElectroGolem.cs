@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEngine.UI;
 
 public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 {
@@ -7,9 +9,12 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     [HideInInspector] public CharacterStatus currentTarget;
     [HideInInspector] public Vector2 relocateDestination;
 
+    public GameObject copperAssaultProjectile;
+    public GameObject copperAssaultExplosion;
+
     [SerializeField] private float groundCheckLength;
     [SerializeField] private float groundCheckOffset;
-    [SerializeField] private LayerMask groundMask;
+    [SerializeField] public LayerMask groundMask;
     public bool isGrounded;
 
 
@@ -53,6 +58,8 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
         stateMachine.AddState(new EGStates.Jump(this));
         stateMachine.AddState(new EGStates.Hover(this));
+
+        stateMachine.AddState(new EGStates.CopperAssault(this));
 
         stateMachine.SwitchState(new EGStates.Idle(this));
     }
@@ -111,16 +118,16 @@ namespace EGStates
 
         public override void OnUpdate()
         {
-            if(!Owner.isGrounded) { return; }
+            if (!Owner.isGrounded) { return; }
             Owner.rb.velocity = Vector2.zero;
+
             if (Owner.CheckChargeAllowed())
             {
-                Owner.stateMachine.SwitchState(typeof(StartCharge));
+                Owner.stateMachine.SwitchState(typeof(CopperAssault));
             }
             else
             {
                 Owner.relocateDestination = new Vector2(Random.Range(Owner.arenaMinX, Owner.arenaMaxX), Random.Range(Owner.arenaMinY, Owner.arenaMaxY));
-                Debug.Log("Set destination to: " + Owner.relocateDestination);
                 Owner.stateMachine.SwitchState(typeof(Jump));
             }
         }
@@ -295,4 +302,76 @@ namespace EGStates
         }
 
     }
+
+    public class CopperAssault : State<ElectroGolem>, IProjectileOwner
+    {
+
+        // Shoot copper projectiles that explode
+
+        private float startDelay = 0.6f;
+        private float fireDelay = 0.1f;
+        private float endDelay = 1.5f;
+
+        private int count = 10;
+        private float maxSpread = 25;
+        private float projectileForce = 20;
+
+        public CopperAssault(ElectroGolem owner) : base(owner) { }
+
+        public override void OnEnter()
+        {
+            Owner.StartCoroutine(Process());
+        }
+
+        public override void OnUpdate()
+        {
+
+        }
+
+        public override void OnExit()
+        {
+        }
+
+        private IEnumerator Process()
+        {
+            yield return new WaitForSeconds(startDelay);
+
+            for(int i = 0; i < count; i++)
+            {
+                PhysicsProjectile p = Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
+                p.Setup(this);
+                float angle = -Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
+                angle += Random.Range(-maxSpread, maxSpread);
+                Debug.Log(angle);
+                angle *= Mathf.Deg2Rad;
+                Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
+                p.rb.AddForce(projectileForce * dir, ForceMode2D.Impulse);
+                p.rb.AddTorque(20);
+                yield return new WaitForSeconds(fireDelay);
+            }
+
+            yield return new WaitForSeconds(endDelay);
+            Owner.stateMachine.SwitchState(typeof(Idle));
+        }
+
+        public bool OnProjectileHit(Collider2D other, GameObject p)
+        {
+            if ((Owner.groundMask & (1 << other.gameObject.layer)) != 0)
+            {
+                Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
+                rb.velocity = Vector2.zero;
+                rb.freezeRotation = true;
+                rb.isKinematic = true;
+                return false;
+            }
+            if (other.GetComponent<CharacterStatus>() != null)
+            {
+                // Explode
+                Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
+                return true;
+            }
+            return false;
+        }
+    }
+
 }

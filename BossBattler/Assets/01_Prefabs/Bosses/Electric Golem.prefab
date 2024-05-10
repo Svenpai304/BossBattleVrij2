@@ -167,7 +167,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8493728877686724348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +183,8 @@ MonoBehaviour:
   rb: {fileID: 8119072121954038497}
   currentTarget: {fileID: 0}
   relocateDestination: {x: 0, y: 0}
+  copperAssaultProjectile: {fileID: 4884491296823045301, guid: d0ce0b4e01d7ccc49966467aa32bab9d, type: 3}
+  copperAssaultExplosion: {fileID: 1519638329381169421, guid: 4551717cf00a816488eb07fbd3d6d42a, type: 3}
   groundCheckLength: 5
   groundCheckOffset: 3.27
   groundMask:

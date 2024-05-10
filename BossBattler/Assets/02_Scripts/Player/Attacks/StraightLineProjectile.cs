@@ -33,7 +33,7 @@ public class StraightLineProjectile : MonoBehaviour
 
     public void OnCollision(Collider2D other)
     {
-        if(owner.OnProjectileHit(other))
+        if(owner.OnProjectileHit(other, gameObject))
         {
             maxHits--;
         }
@@ -69,5 +69,5 @@ public class StraightLineProjectile : MonoBehaviour
 }
 public interface IProjectileOwner
 {
-    public bool OnProjectileHit(Collider2D other);
+    public bool OnProjectileHit(Collider2D other, GameObject projectile);
 }

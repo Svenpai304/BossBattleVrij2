@@ -8,7 +8,7 @@ public class A11_HydroSphere : SimpleAttack
     {
         Instantiate(prefab).GetComponent<HydroSphere>().Setup(status.getPowerDamageMod(), transform, transform.position, this);
     }
-    public override bool OnProjectileHit(Collider2D other)
+    public override bool OnProjectileHit(Collider2D other, GameObject p)
     {
         /*
          * (Ryan) [07/05 16:36] Weet niet precies wat ik hier mee moet

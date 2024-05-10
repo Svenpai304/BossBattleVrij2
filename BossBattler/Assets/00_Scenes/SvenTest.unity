@@ -603,6 +603,10 @@ PrefabInstance:
       propertyPath: MaxHealth
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 8493728877686724348, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 136
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
