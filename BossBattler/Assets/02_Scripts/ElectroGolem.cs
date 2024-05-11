@@ -93,6 +93,10 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         if (Physics2D.Raycast(transform.position + new Vector3(-groundCheckOffset, 0, 0), Vector2.down, groundCheckLength, groundMask)) { return true; }
         return false;
     }
+
+    public void HealDamage(float damage)
+    {
+    }
 }
 
 namespace EGStates

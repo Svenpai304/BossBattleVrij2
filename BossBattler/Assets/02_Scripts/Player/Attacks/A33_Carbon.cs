@@ -10,7 +10,7 @@ public class A33_Carbon : A22_Swords
         if (damageable != null && (object)damageable != status)
         {
             //Heal instead!
-            damageable.TakeDamage(damage * status.DamageDealMult);
+            damageable.HealDamage(damage * status.DamageDealMult);
         }
         return true;
     }
