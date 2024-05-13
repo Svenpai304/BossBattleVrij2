@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 33_CarbonRestoration
   m_EditorClassIdentifier: 
   id: 0300000003000000
-  powerCost: 0
+  powerCost: 20
   castingTime: 0.8
-  effectObject: {fileID: 3776198725186283535, guid: e95e272153222424db81fd7d7d69367f, type: 3}
+  effectObject: {fileID: 7238660397512196238, guid: 99d46e691b66348498f3afefb36c4c8e, type: 3}
