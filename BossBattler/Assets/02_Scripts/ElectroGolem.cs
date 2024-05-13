@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using UnityEngine.UI;
+using EGStates;
 
 public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 {
@@ -11,6 +12,9 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
     public GameObject copperAssaultProjectile;
     public GameObject copperAssaultExplosion;
+    public GameObject ElectronOrbProjectile;
+    [SerializeField] private float electronOrbDamage;
+
 
     [SerializeField] private float groundCheckLength;
     [SerializeField] private float groundCheckOffset;
@@ -340,7 +344,7 @@ namespace EGStates
         {
             yield return new WaitForSeconds(startDelay);
 
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 PhysicsProjectile p = Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
                 p.Setup(this);
@@ -379,3 +383,58 @@ namespace EGStates
     }
 
 }
+public class ElectronOrb : State<ElectroGolem>, IProjectileOwner
+{
+
+    // Shoot electric orb that floats in a sine pattern
+
+    private float startDelay = 0.6f;
+    private float endDelay = 1.5f;
+
+    public ElectronOrb(ElectroGolem owner) : base(owner) { }
+
+    public override void OnEnter()
+    {
+        Owner.StartCoroutine(Process());
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+    }
+
+    private IEnumerator Process()
+    {
+        yield return new WaitForSeconds(startDelay);
+
+        SineProjectile p = Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<SineProjectile>();
+        p.Setup(1, (int)Mathf.Sign(Owner.currentTarget.transform.position.x - Owner.transform.position.x), this);
+
+        yield return new WaitForSeconds(endDelay);
+        Owner.stateMachine.SwitchState(typeof(Idle));
+    }
+
+    public bool OnProjectileHit(Collider2D other, GameObject p)
+    {
+        if ((Owner.groundMask & (1 << other.gameObject.layer)) != 0)
+        {
+            Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
+            rb.velocity = Vector2.zero;
+            rb.freezeRotation = true;
+            rb.isKinematic = true;
+            return false;
+        }
+        if (other.GetComponent<CharacterStatus>() != null)
+        {
+            // Explode
+            Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
+            return true;
+        }
+        return false;
+    }
+}
+
