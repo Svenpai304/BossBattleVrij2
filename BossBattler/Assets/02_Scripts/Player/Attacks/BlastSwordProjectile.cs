@@ -37,7 +37,7 @@ public class BlastSwordProjectile : MonoBehaviour
     }
     public void OnCollision(Collider2D other)
     {
-        if(owner.OnHit(other))
+        if(owner.OnProjectileHit(other, gameObject))
         {
             maxHits--;
         }
@@ -46,11 +46,13 @@ public class BlastSwordProjectile : MonoBehaviour
             Die();
         }
     }
-    public virtual void Setup(int maxHits, float _speed, Vector2 _direction, float _angle, Vector2 _position, IProjectileOwner _owner)
+    public virtual void Setup(float Power, int maxHits, float _speed, Vector2 _direction, float _angle, Vector2 _position, IProjectileOwner _owner)
     {
         speed = _speed;
         direction = _direction;
         owner = _owner;
+
+        transform.localScale = new Vector3(0.5f+Power, 0.5f+Power, 1);
 
         transform.position = _position;
         Quaternion rotref = transform.rotation;

@@ -6,10 +6,9 @@ using UnityEngine;
 public class StraightLineProjectile : MonoBehaviour
 {
     private IProjectileOwner owner;
-    private int maxHits;
-    private float damage;
+    [SerializeField] private int maxHits;
     private float speed;
-    [SerializeField] private float accel;
+    private float accel;
     private Vector2 direction;
     public float lifetime = 20;
 
@@ -25,7 +24,6 @@ public class StraightLineProjectile : MonoBehaviour
         {
             Die();
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -35,7 +33,7 @@ public class StraightLineProjectile : MonoBehaviour
 
     public void OnCollision(Collider2D other)
     {
-        if(owner.OnHit(other))
+        if(owner.OnProjectileHit(other, gameObject))
         {
             maxHits--;
         }
@@ -45,11 +43,13 @@ public class StraightLineProjectile : MonoBehaviour
         }
     }
 
-    public virtual void Setup(int maxHits, float _speed, Vector2 _direction, Vector2 _position, IProjectileOwner _owner)
+    public virtual void Setup(float PowerLevel, int maxHits, float _speed, Vector2 _direction, Vector2 _position, IProjectileOwner _owner)
     {
         speed = _speed;
         direction = _direction;
         owner = _owner;
+
+        transform.localScale = new Vector3(0.5f+PowerLevel, 0.5f+PowerLevel, 1);
 
         transform.position = _position;
         if (rotateTransform != null)
@@ -69,5 +69,5 @@ public class StraightLineProjectile : MonoBehaviour
 }
 public interface IProjectileOwner
 {
-    public bool OnHit(Collider2D other);
+    public bool OnProjectileHit(Collider2D other, GameObject projectile);
 }

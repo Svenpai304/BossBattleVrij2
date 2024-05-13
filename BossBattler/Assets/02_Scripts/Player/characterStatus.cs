@@ -18,18 +18,20 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     public float MaxDashTime;
     public float PowerRegen;
 
+    public bool isCasting;
+
     public float DamageDealMult { get; set; }
     public float DamageTakenMult { get; set; }
     public float GroundSpeedMult { get; set; }
     public float PowerRegenMult { get; set; }
     public bool Invulnerable { get; set; }
 
-    public float Health { get { return health; } }
+    public float Health { get { return health; } set { health = value; } }
     public float Power { get { return power; } set { power = value; } }
     public float DashTime { get { return dashTime; } set { dashTime = value; } }
     public Vector2 LookDirection { get { return cl.LookDirection; } }
 
-    private float health;
+    [SerializeField]private float health;
     private float power;
     private float dashTime;
     private float powerRegenDelay;
@@ -75,8 +77,10 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         DamageTakenMult = 1f;
         GroundSpeedMult = 1f;
         PowerRegenMult = 1f;
+        Debug.Log("Updating buff...");
         foreach (CharacterBuff buff in new List<CharacterBuff>(Buffs))
         {
+            Debug.Log("Processing buff...");
             buff.Duration -= Time.deltaTime;
             if (buff.Duration < 0f)
             {
@@ -88,6 +92,8 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
                 {
                     DamageDealMult *= buff.DamageDone;
                     DamageTakenMult *= buff.DamageTaken;
+                    GroundSpeedMult *= buff.MovementSpeed;
+                    Debug.Log("Processing buff stacks...");
                 }
             }
         }
@@ -157,6 +163,42 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
             CharacterBuff newBuff = new CharacterBuff(_ID, _dur, _maxStacks, BuffMod > 1f);
             newBuff.DamageDone = BuffMod;
             Buffs.Add(newBuff);
+        } else
+        {
+            oldBuff.CurStacks = Mathf.Min(_maxStacks, oldBuff.CurStacks + 1);
+            oldBuff.Duration = Mathf.Max(_dur, oldBuff.Duration);
+            if (BuffMod < 1f) //If the overwriting buff is stronger than the old buff, overwrite old buff
+            {
+                if (BuffMod < oldBuff.DamageDone) oldBuff.DamageDone = BuffMod;
+            }
+            else
+            {
+                if (BuffMod > oldBuff.DamageDone) oldBuff.DamageDone = BuffMod;
+            }
+        }
+    }
+    public void BuffMoveSpeed(string _ID, float _dur, int _maxStacks, float BuffMod)
+    {
+        Debug.Log("Movement speed change!");
+        CharacterBuff oldBuff = getBuff(_ID);
+        if (oldBuff == null)
+        {
+            Debug.Log("New buff!");
+            CharacterBuff newBuff = new CharacterBuff(_ID, _dur, _maxStacks, BuffMod > 1f);
+            newBuff.MovementSpeed = BuffMod;
+            Buffs.Add(newBuff);
+        } else
+        {
+            oldBuff.CurStacks = Mathf.Min(_maxStacks, oldBuff.CurStacks + 1);
+            oldBuff.Duration = Mathf.Max(_dur, oldBuff.Duration);
+            if (BuffMod < 1f) //If the overwriting buff is stronger than the old buff, overwrite old buff
+            {
+                if (BuffMod < oldBuff.MovementSpeed) oldBuff.MovementSpeed = BuffMod;
+            }
+            else
+            {
+                if (BuffMod > oldBuff.MovementSpeed) oldBuff.MovementSpeed = BuffMod;
+            }
         }
     }
     public CharacterBuff getBuff(string _ID)
@@ -183,12 +225,14 @@ public class CharacterBuff {
     public float Duration;
     public float DamageTaken = 1f;
     public float DamageDone = 1f;
-
+    public float MovementSpeed = 1f;
+    //public float DamageDone = 1f;
     public CharacterBuff(string _ID, float _dur, int _maxStacks, bool _positive)
     {
         ID = _ID;
         isPositive = _positive;
         Duration = _dur;
         MaxStacks = _maxStacks;
+        CurStacks = 1;
     }
 }

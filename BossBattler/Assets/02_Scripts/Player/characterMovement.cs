@@ -10,6 +10,7 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] MovementLimiter moveLimit;
+    public CharacterStatus status;
     private Rigidbody2D body;
     private BoxCollider2D bc;
     private Animator animator;
@@ -153,17 +154,21 @@ public class CharacterMovement : MonoBehaviour
         }
 
         //Move our velocity towards the desired velocity, at the rate of the number calculated above
-        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
+        velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange) * getSpeedMod();
 
         //Update the Rigidbody with this new velocity
         body.velocity = velocity;
 
     }
 
+    public float getSpeedMod()
+    {
+        return status.GroundSpeedMult;
+    }
     private void runWithoutAcceleration()
     {
         //If we're not using acceleration and deceleration, just send our desired velocity (direction * max speed) to the Rigidbody
-        velocity.x = desiredVelocity.x;
+        velocity.x = desiredVelocity.x * getSpeedMod();
 
         body.velocity = velocity;
     }

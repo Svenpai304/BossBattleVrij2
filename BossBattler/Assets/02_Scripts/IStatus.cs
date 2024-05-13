@@ -9,4 +9,5 @@ public interface IStatus
     public float GroundSpeedMult { get; set; }
     public float PowerRegenMult { get; set; }
     public bool Invulnerable { get; set; }
+    public float Health { get; set; }
 }

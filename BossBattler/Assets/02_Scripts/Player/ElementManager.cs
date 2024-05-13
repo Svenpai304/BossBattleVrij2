@@ -12,7 +12,7 @@ public class ElementManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        ComboAttackEntry[] attacks = Resources.FindObjectsOfTypeAll<ComboAttackEntry>();
+        ComboAttackEntry[] attacks = Resources.LoadAll<ComboAttackEntry>("Scriptable Objects");
         foreach (ComboAttackEntry attack in attacks)
         {
             attackDict.Add(attack.id, attack);

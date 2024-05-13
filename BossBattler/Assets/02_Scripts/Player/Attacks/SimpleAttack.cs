@@ -7,7 +7,7 @@ public class SimpleAttack : ComboAttack, IProjectileOwner
     //The Simple Attack simply creates an object
     protected CharacterStatus status;
     public GameObject prefab;
-    public float power = 40f;
+    public float power = 1f;
     public override void OnFire(CharacterStatus _status)
     {
         power *= _status.getPowerDamageMod();
@@ -29,7 +29,7 @@ public class SimpleAttack : ComboAttack, IProjectileOwner
         Instantiate(prefab).GetComponent<HydroSphere>().Setup(power, transform, transform.position, this);
     }
 
-    public virtual bool OnHit(Collider2D other)
+    public virtual bool OnProjectileHit(Collider2D other, GameObject p)
     {
         /*
          * (Ryan) [07/05 16:36] Weet niet precies wat ik hier mee moet

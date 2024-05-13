@@ -27,8 +27,9 @@ public class VFX : MonoBehaviour
             Die(false);
         }
     }
-    public virtual void Setup(Vector2 _position)
+    public virtual void Setup(float pow, Vector2 _position)
     {
+        transform.localScale = new Vector3(0.7f + pow*0.8f, 0.7f + pow*0.8f,1);
         transform.position = _position;
         Quaternion rotref = transform.rotation;
         StartCoroutine(SmoothFadeIn());
