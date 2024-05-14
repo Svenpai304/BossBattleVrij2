@@ -185,6 +185,8 @@ MonoBehaviour:
   relocateDestination: {x: 0, y: 0}
   copperAssaultProjectile: {fileID: 4884491296823045301, guid: d0ce0b4e01d7ccc49966467aa32bab9d, type: 3}
   copperAssaultExplosion: {fileID: 1519638329381169421, guid: 4551717cf00a816488eb07fbd3d6d42a, type: 3}
+  ElectronOrbProjectile: {fileID: 2509743005164499303, guid: 9fc5f8d2fce2dc34da5819eb80406094, type: 3}
+  electronOrbDamage: 10
   groundCheckLength: 5
   groundCheckOffset: 3.27
   groundMask:

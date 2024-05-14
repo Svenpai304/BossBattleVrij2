@@ -13,7 +13,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public GameObject copperAssaultProjectile;
     public GameObject copperAssaultExplosion;
     public GameObject ElectronOrbProjectile;
-    [SerializeField] private float electronOrbDamage;
+    public float electronOrbDamage;
 
 
     [SerializeField] private float groundCheckLength;
@@ -64,6 +64,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         stateMachine.AddState(new EGStates.Hover(this));
 
         stateMachine.AddState(new EGStates.CopperAssault(this));
+        stateMachine.AddState(new EGStates.ElectronOrb(this));
 
         stateMachine.SwitchState(new EGStates.Idle(this));
     }
@@ -131,7 +132,7 @@ namespace EGStates
 
             if (Owner.CheckChargeAllowed())
             {
-                Owner.stateMachine.SwitchState(typeof(CopperAssault));
+                Owner.stateMachine.SwitchState(typeof(ElectronOrb));
             }
             else
             {
@@ -382,59 +383,52 @@ namespace EGStates
         }
     }
 
-}
-public class ElectronOrb : State<ElectroGolem>, IProjectileOwner
-{
 
-    // Shoot electric orb that floats in a sine pattern
-
-    private float startDelay = 0.6f;
-    private float endDelay = 1.5f;
-
-    public ElectronOrb(ElectroGolem owner) : base(owner) { }
-
-    public override void OnEnter()
-    {
-        Owner.StartCoroutine(Process());
-    }
-
-    public override void OnUpdate()
+    public class ElectronOrb : State<ElectroGolem>, IProjectileOwner
     {
 
-    }
+        // Shoot electric orb that floats in a sine pattern
 
-    public override void OnExit()
-    {
-    }
+        private float startDelay = 0.6f;
+        private float endDelay = 1.5f;
 
-    private IEnumerator Process()
-    {
-        yield return new WaitForSeconds(startDelay);
+        public ElectronOrb(ElectroGolem owner) : base(owner) { }
 
-        SineProjectile p = Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<SineProjectile>();
-        p.Setup(1, (int)Mathf.Sign(Owner.currentTarget.transform.position.x - Owner.transform.position.x), this);
-
-        yield return new WaitForSeconds(endDelay);
-        Owner.stateMachine.SwitchState(typeof(Idle));
-    }
-
-    public bool OnProjectileHit(Collider2D other, GameObject p)
-    {
-        if ((Owner.groundMask & (1 << other.gameObject.layer)) != 0)
+        public override void OnEnter()
         {
-            Rigidbody2D rb = p.GetComponent<Rigidbody2D>();
-            rb.velocity = Vector2.zero;
-            rb.freezeRotation = true;
-            rb.isKinematic = true;
+            Owner.StartCoroutine(Process());
+        }
+
+        public override void OnUpdate()
+        {
+
+        }
+
+        public override void OnExit()
+        {
+        }
+
+        private IEnumerator Process()
+        {
+            yield return new WaitForSeconds(startDelay);
+
+            SineProjectile p = Object.Instantiate(Owner.ElectronOrbProjectile, Owner.transform.position, Quaternion.identity).GetComponent<SineProjectile>();
+            p.Setup(1, (int)Mathf.Sign(Owner.currentTarget.transform.position.x - Owner.transform.position.x), this);
+
+            yield return new WaitForSeconds(endDelay);
+            Owner.stateMachine.SwitchState(typeof(Idle));
+        }
+
+        public bool OnProjectileHit(Collider2D other, GameObject p)
+        {
+            CharacterStatus status = other.GetComponent<CharacterStatus>();
+            if (status != null)
+            {
+                status.TakeDamage(Owner.electronOrbDamage);
+                return true;
+            }
             return false;
         }
-        if (other.GetComponent<CharacterStatus>() != null)
-        {
-            // Explode
-            Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
-            return true;
-        }
-        return false;
     }
 }
 
