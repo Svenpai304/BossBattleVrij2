@@ -299,7 +299,7 @@ namespace EGStates
             if (time > maxTime || Mathf.Abs(Owner.relocateDestination.x - Owner.transform.position.x) < 1)
             {
                 Owner.rb.gravityScale = 1;
-                Owner.rb.velocity /= 5;
+                Owner.rb.velocity = new Vector2(Owner.rb.velocity.x / 5, 0);
                 Owner.rb.isKinematic = false;
                 Owner.stateMachine.SwitchState(typeof(Idle));
             }

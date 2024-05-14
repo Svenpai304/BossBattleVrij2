@@ -56,7 +56,7 @@ public class CharacterDash : MonoBehaviour
         {
             rb.AddForce(look.LookDirection * dashStartForce * status.GroundSpeedMult);
         }
-        Physics2D.gravity = new Vector2(0, 9.81f * gravMultiplier);
+        rb.gravityScale *= gravMultiplier;
 
     }
 
@@ -64,7 +64,7 @@ public class CharacterDash : MonoBehaviour
     {
         dashing = false;
         jump.enabled = true;
-        Physics2D.gravity = new Vector2(0, 9.81f);
+        rb.gravityScale /= gravMultiplier;
 
     }
 }
