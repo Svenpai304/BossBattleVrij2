@@ -1,33 +1,45 @@
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEngine.UI;
 using EGStates;
+using System;
+using System.Collections.Generic;
 
 public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 {
+    [Header("References")]
     public Rigidbody2D rb;
+    [HideInInspector] public StateMachine stateMachine = new();
     [HideInInspector] public CharacterStatus currentTarget;
     [HideInInspector] public Vector2 relocateDestination;
 
+    [Header("Ground Check")]
+    [SerializeField] private float groundCheckLength;
+    [SerializeField] private float groundCheckOffset;
+    public LayerMask groundMask;
+    public bool isGrounded;
+
+    [Header("General stats")]
+    public float MaxHealth;
+    public float arenaMinX = -20, arenaMinY = 0, arenaMaxX = 20, arenaMaxY = 20;
+
+    [Header("Idle")]
+
+
+    [Header("Charge")]
+    public float ChargeYThreshold;
+    public float ChargeXThreshold;
+
+    [Header("Jump")]
+
+    [Header("Copper Assault")]
+    public float caDistance;
     public GameObject copperAssaultProjectile;
     public GameObject copperAssaultExplosion;
+
+    [Header("Electron Orb")]
     public GameObject ElectronOrbProjectile;
     public float electronOrbDamage;
 
-
-    [SerializeField] private float groundCheckLength;
-    [SerializeField] private float groundCheckOffset;
-    [SerializeField] public LayerMask groundMask;
-    public bool isGrounded;
-
-
-    public float arenaMinX = -20, arenaMinY = 0, arenaMaxX = 20, arenaMaxY = 20;
-
-    public float MaxHealth;
-    public float ChargeYThreshold;
-
-    [HideInInspector] public StateMachine stateMachine = new();
 
     public float DamageDealMult { get; set; }
     public float DamageTakenMult { get; set; }
@@ -55,33 +67,63 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
     private void SetupStateMachine()
     {
-        stateMachine.AddState(new EGStates.Idle(this));
+        stateMachine.AddState(new Idle(this));
 
-        stateMachine.AddState(new EGStates.StartCharge(this));
-        stateMachine.AddState(new EGStates.Charge(this));
+        stateMachine.AddState(new StartCharge(this));
+        stateMachine.AddState(new Charge(this));
 
-        stateMachine.AddState(new EGStates.Jump(this));
-        stateMachine.AddState(new EGStates.Hover(this));
+        stateMachine.AddState(new Jump(this));
+        stateMachine.AddState(new Hover(this));
 
-        stateMachine.AddState(new EGStates.CopperAssault(this));
-        stateMachine.AddState(new EGStates.ElectronOrb(this));
+        stateMachine.AddState(new CopperAssault(this));
+        stateMachine.AddState(new ElectronOrb(this));
 
-        stateMachine.SwitchState(new EGStates.Idle(this));
+        stateMachine.SwitchState(new Idle(this));
     }
 
-    public bool CheckChargeAllowed()
+    public CharacterStatus CheckChargeAllowed()
     {
         foreach (CharacterStatus player in PlayerConnector.instance.players)
         {
-            if (Mathf.Abs(player.transform.position.y - transform.position.y) < ChargeYThreshold)
+            if (Mathf.Abs(player.transform.position.y - transform.position.y) < ChargeYThreshold && Mathf.Abs(player.transform.position.x - transform.position.x) < ChargeXThreshold)
             {
-                currentTarget = player;
-                Debug.Log("Charge target found");
-                return true;
+                return player;
             }
         }
         Debug.Log("No charge target found");
-        return false;
+        return null;
+    }
+
+    public CharacterStatus ClosestPlayer()
+    {
+        float closest = Mathf.Infinity;
+        CharacterStatus cs = null;
+        foreach (CharacterStatus player in PlayerConnector.instance.players)
+        {
+            float dist = player.Dist(transform);
+            if (dist < closest)
+            {
+                closest = dist;
+                cs = player;
+            }
+        }
+        return cs;
+    }
+
+    public CharacterStatus FarthestPlayer()
+    {
+        float farthest = 0;
+        CharacterStatus cs = null;
+        foreach (CharacterStatus player in PlayerConnector.instance.players)
+        {
+            float dist = player.Dist(transform);
+            if (dist > farthest)
+            {
+                farthest = dist;
+                cs = player;
+            }
+        }
+        return cs;
     }
 
     public void TakeDamage(float damage)
@@ -115,35 +157,70 @@ namespace EGStates
 {
     public class Idle : State<ElectroGolem>
     {
-
         // Decides next action to perform
+
+        private float minIdleTime = 0.2f;
+        private float maxIdleTime = 2f;
+
+        List<Type> validMoves = new();
 
         public Idle(ElectroGolem owner) : base(owner) { }
 
         public override void OnEnter()
         {
-
+            Owner.StartCoroutine(ProcessPhase1());
         }
 
         public override void OnUpdate()
         {
-            if (!Owner.isGrounded) { return; }
-            Owner.rb.velocity = Vector2.zero;
 
-            if (Owner.CheckChargeAllowed())
-            {
-                Owner.stateMachine.SwitchState(typeof(ElectronOrb));
-            }
-            else
-            {
-                Owner.relocateDestination = new Vector2(Random.Range(Owner.arenaMinX, Owner.arenaMaxX), Random.Range(Owner.arenaMinY, Owner.arenaMaxY));
-                Owner.stateMachine.SwitchState(typeof(Jump));
-            }
         }
 
         public override void OnExit()
         {
 
+        }
+
+        private IEnumerator ProcessPhase1()
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
+            if (!Owner.isGrounded || PlayerConnector.instance.players.Count == 0) { yield break; }
+            Owner.rb.velocity = Vector2.zero;
+
+            validMoves.Clear();
+            Owner.currentTarget = Owner.ClosestPlayer();
+
+            CharacterStatus chargeTarget = Owner.CheckChargeAllowed();
+            if (chargeTarget != null)
+            {
+                validMoves.Add(typeof(StartCharge));
+            }
+            if (Owner.currentTarget.Dist(Owner.transform) < Owner.caDistance)
+            {
+                validMoves.Add(typeof(CopperAssault));
+            }
+            else
+            {
+                validMoves.Add(typeof(Jump));
+                validMoves.Add(typeof(ElectronOrb));
+            }
+
+            Type newState = validMoves[UnityEngine.Random.Range(0, validMoves.Count)];
+
+            if (newState == typeof(StartCharge))
+            {
+                Owner.currentTarget = chargeTarget;
+            }
+            else if (newState == typeof(Jump))
+            {
+                Vector2 farthest = Owner.FarthestPlayer().transform.position;
+                farthest.x = Mathf.Clamp(farthest.x, Owner.arenaMinX, Owner.arenaMaxX);
+                farthest.y = Mathf.Clamp(farthest.y, Owner.arenaMinY, Owner.arenaMaxY);
+                Owner.relocateDestination = farthest;
+            }
+
+            Debug.Log("Chosen state: " + newState);
+            Owner.stateMachine.SwitchState(newState);
         }
     }
 
@@ -298,7 +375,7 @@ namespace EGStates
             time += Time.deltaTime;
             if (time > maxTime || Mathf.Abs(Owner.relocateDestination.x - Owner.transform.position.x) < 1)
             {
-                Owner.rb.gravityScale = 1;
+                Owner.rb.gravityScale = 3;
                 Owner.rb.velocity = new Vector2(Owner.rb.velocity.x / 5, 0);
                 Owner.rb.isKinematic = false;
                 Owner.stateMachine.SwitchState(typeof(Idle));
@@ -318,11 +395,11 @@ namespace EGStates
         // Shoot copper projectiles that explode
 
         private float startDelay = 0.6f;
-        private float fireDelay = 0.1f;
+        private float fireDelay = 0.03f;
         private float endDelay = 1.5f;
 
-        private int count = 10;
-        private float maxSpread = 25;
+        private int count = 12;
+        private float maxSpread = 20;
         private float projectileForce = 20;
 
         public CopperAssault(ElectroGolem owner) : base(owner) { }
@@ -347,10 +424,10 @@ namespace EGStates
 
             for (int i = 0; i < count; i++)
             {
-                PhysicsProjectile p = Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
+                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
                 p.Setup(this);
-                float angle = -Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
-                angle += Random.Range(-maxSpread, maxSpread);
+                float angle = Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
+                angle += UnityEngine.Random.Range(-maxSpread, maxSpread);
                 Debug.Log(angle);
                 angle *= Mathf.Deg2Rad;
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
@@ -376,13 +453,12 @@ namespace EGStates
             if (other.GetComponent<CharacterStatus>() != null)
             {
                 // Explode
-                Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
+                UnityEngine.Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
                 return true;
             }
             return false;
         }
     }
-
 
     public class ElectronOrb : State<ElectroGolem>, IProjectileOwner
     {
@@ -412,7 +488,7 @@ namespace EGStates
         {
             yield return new WaitForSeconds(startDelay);
 
-            SineProjectile p = Object.Instantiate(Owner.ElectronOrbProjectile, Owner.transform.position, Quaternion.identity).GetComponent<SineProjectile>();
+            SineProjectile p = UnityEngine.Object.Instantiate(Owner.ElectronOrbProjectile, Owner.transform.position, Quaternion.identity).GetComponent<SineProjectile>();
             p.Setup(1, (int)Mathf.Sign(Owner.currentTarget.transform.position.x - Owner.transform.position.x), this);
 
             yield return new WaitForSeconds(endDelay);

@@ -11,7 +11,7 @@ public class A13_FuelBoost : SimpleAttack
         //Hier moet de buff worden uitgedeeld.
         foreach (CharacterStatus stat in PlayerConnector.instance.players)
         {
-            if (status.Dist(stat) < BuffRange)
+            if (status.Dist(stat.transform) < BuffRange)
             {
                 stat.BuffDamageDone("FuelBoostDamageDone", 9f, 1, 1f + (0.3f*power));
                 stat.BuffDamageDone("FuelBoostDamageTaken", 9f, 1, 1f - (0.3f * power));

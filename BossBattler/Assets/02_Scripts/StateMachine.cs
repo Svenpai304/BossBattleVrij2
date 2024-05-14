@@ -40,7 +40,6 @@ public class StateMachine
     }
     public void SwitchState(IState newState)
     {
-        Debug.Log("Transitioning to state: " + newState.ToString());
         currentState?.OnExit();
         currentState = newState;
         currentState?.OnEnter();

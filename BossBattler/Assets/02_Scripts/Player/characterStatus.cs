@@ -210,10 +210,10 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         return null;
     }
 
-    public float Dist(CharacterStatus sta)
+    public float Dist(Transform other)
     {
         //Distance to other player
-        return (transform.position - sta.transform.position).magnitude;
+        return (transform.position - other.position).magnitude;
     }
 }
 
