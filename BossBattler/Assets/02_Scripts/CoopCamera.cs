@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class CoopCamera : MonoBehaviour
 {
     private List<CharacterStatus> characters = new List<CharacterStatus>();
-
+    public Camera cam;
     private void Start()
     {
         characters = PlayerConnector.instance.players;

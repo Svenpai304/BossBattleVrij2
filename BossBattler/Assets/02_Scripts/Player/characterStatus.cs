@@ -77,10 +77,8 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         DamageTakenMult = 1f;
         GroundSpeedMult = 1f;
         PowerRegenMult = 1f;
-        Debug.Log("Updating buff...");
         foreach (CharacterBuff buff in new List<CharacterBuff>(Buffs))
         {
-            Debug.Log("Processing buff...");
             buff.Duration -= Time.deltaTime;
             if (buff.Duration < 0f)
             {
@@ -93,7 +91,6 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
                     DamageDealMult *= buff.DamageDone;
                     DamageTakenMult *= buff.DamageTaken;
                     GroundSpeedMult *= buff.MovementSpeed;
-                    Debug.Log("Processing buff stacks...");
                 }
             }
         }
@@ -214,6 +211,11 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     {
         //Distance to other player
         return (transform.position - other.position).magnitude;
+    }
+    public float Dist(Vector3 po)
+    {
+        //Distance to other player
+        return (transform.position - po).magnitude;
     }
 }
 
