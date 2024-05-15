@@ -161,6 +161,7 @@ namespace EGStates
 
         private float minIdleTime = 0.2f;
         private float maxIdleTime = 2f;
+        private bool coroutineActive;
 
         List<Type> validMoves = new();
 
@@ -168,12 +169,12 @@ namespace EGStates
 
         public override void OnEnter()
         {
-            Owner.StartCoroutine(ProcessPhase1());
         }
 
         public override void OnUpdate()
         {
-
+            if(coroutineActive) { return; }
+            Owner.StartCoroutine(ProcessPhase1());
         }
 
         public override void OnExit()
@@ -183,8 +184,9 @@ namespace EGStates
 
         private IEnumerator ProcessPhase1()
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
             if (!Owner.isGrounded || PlayerConnector.instance.players.Count == 0) { yield break; }
+            coroutineActive = true;
+            yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
             Owner.rb.velocity = Vector2.zero;
 
             validMoves.Clear();
@@ -221,6 +223,7 @@ namespace EGStates
 
             Debug.Log("Chosen state: " + newState);
             Owner.stateMachine.SwitchState(newState);
+            coroutineActive = false;
         }
     }
 
@@ -426,11 +429,12 @@ namespace EGStates
             {
                 PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
                 p.Setup(this);
+
                 float angle = Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
                 angle += UnityEngine.Random.Range(-maxSpread, maxSpread);
-                Debug.Log(angle);
                 angle *= Mathf.Deg2Rad;
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
+
                 p.rb.AddForce(projectileForce * dir, ForceMode2D.Impulse);
                 p.rb.AddTorque(20);
                 yield return new WaitForSeconds(fireDelay);
