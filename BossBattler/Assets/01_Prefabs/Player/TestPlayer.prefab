@@ -510,5 +510,6 @@ MonoBehaviour:
   StickLookDeadzone: 0.5
   keyboardLookReticle: {fileID: 3503251779541145531, guid: 9123b7d99e7d115408c261d6adf7d27e, type: 3}
   gamepadLookArrow: {fileID: 1684940156943448836, guid: 0ca6524efe1490a41a33eea951ee2e06, type: 3}
+  sciencePack: {fileID: 5011379757760672600}
   gamepadArrowOffset: 2
   LookDirection: {x: 0, y: 0}

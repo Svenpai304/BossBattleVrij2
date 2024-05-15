@@ -11,7 +11,7 @@ public class SciencePack : MonoBehaviour
     CharacterUI ui;
     [SerializeField] private ComboElement[] elements = new ComboElement[3];
     [SerializeField] private Queue<ComboElement> currentElements = new Queue<ComboElement>();
-    public Action<int> onCursorChange;
+    public event Action<int> CursorChanged;
     
     private void Start()
     {
@@ -27,16 +27,23 @@ public class SciencePack : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext c)
     {
-        onCursorChange.Invoke(1);
+        bool isFired = false;
+
         if (c.started)
         {
-            onCursorChange.Invoke(2);
             if (currentElements.Count != 2) { return; }
+            CursorChanged?.Invoke(2);
             ComboAttackEntry entry = ElementManager.GetAttackEntry(currentElements.First().id, currentElements.Last().id);
+            isFired = true;
             if (entry != null) { entry.Fire(status); }
             else Debug.Log("Combo not found");
             currentElements.Clear();
             ui.ClearActiveElements();
+        } 
+        if (c.canceled)
+        {
+            if (isFired) return;
+            CursorChanged?.Invoke(1);
         }
     }
 
