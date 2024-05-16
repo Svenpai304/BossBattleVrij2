@@ -1,47 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 public class CursorSpriteController : MonoBehaviour
 {
-    [SerializeField] private List<Sprite> cursorSprites = new List<Sprite>();
+    [SerializeField] private Sprite[] cursorSprites = new Sprite[3];
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private float resetTime = 0.4f;
     private SciencePack sciencePack;
 
     public void Initialize(SciencePack _sciencePack)
     {
         sciencePack = _sciencePack;
-        if (sciencePack != null)
-        {
-            sciencePack.CursorChanged += ChangeSprite;
-        }
-        else
-        {
-            Debug.LogWarning("SciencePack reference is null in CursorSpriteController.");
-        }
+        sciencePack.CursorChanged += ChangeCursor;
     }
 
     private void OnDisable()
     {
-        if (sciencePack != null)
-        {
-            sciencePack.CursorChanged -= ChangeSprite;
-        }
+        if (sciencePack == null) return;
+        sciencePack.CursorChanged -= ChangeCursor;
     }
 
-    private void ChangeSprite(int newIndex)
+    private void Update()
+    {
+        spriteRenderer.sprite = cursorSprites[1];
+    }
+
+    private void ChangeCursor(int newIndex)
     {
         Debug.Log("Change Cursor Sprite to:" + newIndex);
-        spriteRenderer.sprite = cursorSprites[newIndex];
 
-        StopAllCoroutines();
-        StartCoroutine(ResetSpriteAfterDelay());
-    }
-
-    private IEnumerator ResetSpriteAfterDelay()
-    {
-        yield return new WaitForSeconds(resetTime);
-        spriteRenderer.sprite = cursorSprites[0];
+        if (newIndex >= 0 && newIndex < cursorSprites.Length)
+        {
+            spriteRenderer.sprite = cursorSprites[newIndex];
+            Debug.Log("Sprite set: " + spriteRenderer.sprite.name);
+        }
     }
 }
