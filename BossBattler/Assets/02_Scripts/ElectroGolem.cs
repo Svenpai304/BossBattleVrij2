@@ -23,6 +23,12 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public float arenaMinX = -20, arenaMinY = 0, arenaMaxX = 20, arenaMaxY = 20;
 
     [Header("Idle")]
+    public GameObject ElectroSuitObject;
+    public ParticleSystem ElectroSuitBurst;
+    public float ElectroSuitDamage;
+    public float ElectroSuitInterval;
+    public float ElectroSuitDuration;
+    private float timer;
 
 
     [Header("Charge")]
@@ -32,13 +38,13 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     [Header("Jump")]
 
     [Header("Copper Assault")]
-    public float caDistance;
-    public GameObject copperAssaultProjectile;
-    public GameObject copperAssaultExplosion;
+    public float CaDistance;
+    public GameObject CopperAssaultProjectile;
+    public GameObject CopperAssaultExplosion;
 
     [Header("Electron Orb")]
     public GameObject ElectronOrbProjectile;
-    public float electronOrbDamage;
+    public float ElectronOrbDamage;
 
 
     public float DamageDealMult { get; set; }
@@ -63,6 +69,32 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     {
         isGrounded = CheckGrounded();
         stateMachine.OnFixedUpdate();
+
+        timer += Time.deltaTime;
+        if(timer > ElectroSuitInterval)
+        {
+            timer = 0;
+            StartCoroutine(ActivateElectroSuit());
+        }
+    }
+
+    private IEnumerator ActivateElectroSuit()
+    {
+        if (ElectroSuitObject == null) { yield break; }
+        if (ElectroSuitBurst != null) { ElectroSuitBurst.Play(); }
+        ElectroSuitObject.SetActive(true);
+
+        yield return new WaitForSeconds(ElectroSuitDuration);
+        ElectroSuitObject.SetActive(false);
+    }
+
+    public void OnESHit(Collider2D other)
+    {
+        CharacterStatus cs = other.GetComponent<CharacterStatus>();
+        if (cs != null)
+        {
+            cs.TakeDamage(ElectroSuitDamage);
+        }
     }
 
     private void SetupStateMachine()
@@ -197,7 +229,7 @@ namespace EGStates
             {
                 validMoves.Add(typeof(StartCharge));
             }
-            if (Owner.currentTarget.Dist(Owner.transform) < Owner.caDistance)
+            if (Owner.currentTarget.Dist(Owner.transform) < Owner.CaDistance)
             {
                 validMoves.Add(typeof(CopperAssault));
             }
@@ -427,7 +459,7 @@ namespace EGStates
 
             for (int i = 0; i < count; i++)
             {
-                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
+                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.CopperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
                 p.Setup(this);
 
                 float angle = Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
@@ -457,7 +489,7 @@ namespace EGStates
             if (other.GetComponent<CharacterStatus>() != null)
             {
                 // Explode
-                UnityEngine.Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
+                UnityEngine.Object.Instantiate(Owner.CopperAssaultExplosion, p.transform.position, p.transform.rotation);
                 return true;
             }
             return false;
@@ -504,7 +536,7 @@ namespace EGStates
             CharacterStatus status = other.GetComponent<CharacterStatus>();
             if (status != null)
             {
-                status.TakeDamage(Owner.electronOrbDamage);
+                status.TakeDamage(Owner.ElectronOrbDamage);
                 return true;
             }
             return false;
