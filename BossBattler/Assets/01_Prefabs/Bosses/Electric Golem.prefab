@@ -103,7 +103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7904952819733977913
 Transform:
   m_ObjectHideFlags: 0
@@ -222,13 +222,13 @@ MonoBehaviour:
   OnCollision:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6489126343876182884}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 8493728877686724348}
+        m_TargetAssemblyTypeName: ElectroGolem, Assembly-CSharp
+        m_MethodName: OnESHit
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -351,7 +351,7 @@ MonoBehaviour:
   ElectroSuitDuration: 0.9
   ChargeYThreshold: 3
   ChargeXThreshold: 20
-  CaDistance: 0
+  CaDistance: 10
   CopperAssaultProjectile: {fileID: 4884491296823045301, guid: d0ce0b4e01d7ccc49966467aa32bab9d, type: 3}
   CopperAssaultExplosion: {fileID: 1519638329381169421, guid: 4551717cf00a816488eb07fbd3d6d42a, type: 3}
   ElectronOrbProjectile: {fileID: 2509743005164499303, guid: 9fc5f8d2fce2dc34da5819eb80406094, type: 3}

@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 public class CursorSpriteController : MonoBehaviour
 {
-    [SerializeField] private Sprite[] cursorSprites = new Sprite[3];
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Animator animator;
+    [SerializeField] private int statesCount;
     private SciencePack sciencePack;
 
     public void Initialize(SciencePack _sciencePack)
@@ -22,19 +23,23 @@ public class CursorSpriteController : MonoBehaviour
         sciencePack.CursorChanged -= ChangeCursor;
     }
 
-    private void Update()
-    {
-        spriteRenderer.sprite = cursorSprites[1];
-    }
-
     private void ChangeCursor(int newIndex)
     {
-        Debug.Log("Change Cursor Sprite to:" + newIndex);
+        if (!gameObject.activeSelf) { Debug.Log("Cursor inactive"); return; }
+        Debug.Log("Change Cursor Sprite to: " + newIndex);
 
-        if (newIndex >= 0 && newIndex < cursorSprites.Length)
+        if(newIndex > -1 && newIndex < statesCount)
         {
-            spriteRenderer.sprite = cursorSprites[newIndex];
-            Debug.Log("Sprite set: " + spriteRenderer.sprite.name);
+            StartCoroutine(WaitAFrame(newIndex));
         }
+    }
+
+    private IEnumerator WaitAFrame(int newIndex)
+    {
+        yield return new WaitForNextFrameUnit();
+
+        animator.SetInteger("Sprites", newIndex);
+        Debug.Log("Set sprite: " + animator.GetInteger("Sprites"));
+
     }
 }

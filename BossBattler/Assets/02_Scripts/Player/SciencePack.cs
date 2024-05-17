@@ -31,10 +31,12 @@ public class SciencePack : MonoBehaviour
         bool isFired = false;
         if (c.started)
         {
-            if (currentElements.Count != 2) { return; }
+            if (currentElements.Count != 2)
+            {
+                CursorChanged?.Invoke(1);
+                return; 
+            }
             CursorChanged?.Invoke(2);
-            StopAllCoroutines();
-            StartCoroutine(resetCursor());
             ComboAttackEntry entry = ElementManager.GetAttackEntry(currentElements.First().id, currentElements.Last().id);
             if (entry != null) { entry.Fire(status); isFired = true; }
             else Debug.Log("Combo not found");
@@ -43,10 +45,7 @@ public class SciencePack : MonoBehaviour
         } 
         if (c.canceled)
         {
-            if (isFired) return;
-            CursorChanged?.Invoke(1);
-            StopAllCoroutines();
-            StartCoroutine(resetCursor());
+            CursorChanged?.Invoke(0);
         }
     }
 

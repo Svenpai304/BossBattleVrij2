@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8007067028617906487}
   - component: {fileID: 5601014576860621014}
   - component: {fileID: -4198359705090232145}
+  - component: {fileID: 8065413759034320982}
   m_Layer: 0
   m_Name: KeyboardReticle
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3503251779541145531}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 0.3, y: 0.30000004, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -97,8 +98,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2593f682e18be604a81f89207ab276dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorSprites:
-  - {fileID: 21300000, guid: 080341ea7ea0962409fca776c5b87886, type: 3}
-  - {fileID: 21300000, guid: 652c41c9537fe764a9a5ad025e2af0b3, type: 3}
-  - {fileID: 21300000, guid: abe68c209b21ce240934531431da9d30, type: 3}
-  spriteRenderer: {fileID: 5601014576860621014}
+  animator: {fileID: 8065413759034320982}
+  statesCount: 3
+--- !u!95 &8065413759034320982
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3503251779541145531}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0bbbd44f08d1f6648ae0bf576e5bbc1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

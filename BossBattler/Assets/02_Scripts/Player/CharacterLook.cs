@@ -26,7 +26,7 @@ public class CharacterLook : MonoBehaviour
         {
             isKeyboard = true;
             lookObject = Instantiate(keyboardLookReticle.gameObject, Camera.main.transform);
-            keyboardLookReticle.GetComponent<CursorSpriteController>().Initialize(sciencePack);
+            lookObject.GetComponent<CursorSpriteController>().Initialize(sciencePack);
             KeyboardLook(transform.position);
         }
         else
