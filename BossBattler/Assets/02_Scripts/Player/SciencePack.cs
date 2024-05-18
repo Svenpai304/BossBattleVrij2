@@ -33,7 +33,7 @@ public class SciencePack : MonoBehaviour
         {
             if (currentElements.Count != 2)
             {
-                CursorChanged?.Invoke(1);
+                CursorChanged?.Invoke(0);
                 return; 
             }
             CursorChanged?.Invoke(2);
@@ -45,7 +45,7 @@ public class SciencePack : MonoBehaviour
         } 
         if (c.canceled)
         {
-            CursorChanged?.Invoke(0);
+            CursorChanged?.Invoke(1);
         }
     }
 
@@ -79,11 +79,4 @@ public class SciencePack : MonoBehaviour
         }   
         ui.SetActiveElement(1, currentElements.First());
     }
-
-    private IEnumerator resetCursor()
-    {
-        yield return new WaitForSeconds(cursorResetTime);
-        CursorChanged?.Invoke(0);
-    }
-
 }
