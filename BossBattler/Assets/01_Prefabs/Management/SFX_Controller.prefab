@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7238660397512196238
+--- !u!1 &53158687447434552
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8715241905651289918}
-  - component: {fileID: -5034577074953608281}
+  - component: {fileID: 529310264677269806}
+  - component: {fileID: 8649288324209591771}
   m_Layer: 0
-  m_Name: A12
+  m_Name: SFX_Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8715241905651289918
+--- !u!4 &529310264677269806
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7238660397512196238}
+  m_GameObject: {fileID: 53158687447434552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -12.9135475, y: 40.295986, z: -0.92483884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5034577074953608281
+--- !u!114 &8649288324209591771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7238660397512196238}
+  m_GameObject: {fileID: 53158687447434552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e43b4441c2325304a80a14dc0d705dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: a99081e91d9320948afbb15ef77401a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swordPrefab: {fileID: 2894796387317689403, guid: f827c52c40e01f4498d629c1c20bb732, type: 3}
-  swordCount: 6
-  spreadAngle: 24
-  damage: 18
-  speed: 28
+  spawnSFX: {fileID: 1124068873720550820, guid: 4eb55b0618d651a4b9c6d108fc5173f6, type: 3}

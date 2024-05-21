@@ -8,6 +8,7 @@ public class SineProjectile : MonoBehaviour
     private IProjectileOwner owner;
     [SerializeField] private int maxHits;
     private float Xstart;
+    private float Ystart;
     private float Xdirection;
     [SerializeField] private float speed;
     [SerializeField] private float amplitude;
@@ -18,7 +19,7 @@ public class SineProjectile : MonoBehaviour
     private void FixedUpdate()
     {
 
-        float Ypos = Mathf.Sin((transform.position.x - Xstart) / wavelength) * amplitude;
+        float Ypos = Ystart + Mathf.Sin((transform.position.x - Xstart) / wavelength) * amplitude;
         transform.position = new Vector3(transform.position.x + speed * Xdirection * Time.deltaTime , Ypos, transform.position.z);
 
         lifetime -= Time.deltaTime;
@@ -49,6 +50,8 @@ public class SineProjectile : MonoBehaviour
     {
         Xdirection = _Xdirection;
         owner = _owner;
+        Xstart = transform.position.x; 
+        Ystart = transform.position.y;
 
         transform.localScale = new Vector3(0.5f + power, 0.5f + power, 1);
     }

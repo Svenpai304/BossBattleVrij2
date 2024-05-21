@@ -34,6 +34,8 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     [Header("Charge")]
     public float ChargeYThreshold;
     public float ChargeXThreshold;
+    public GameObject ChargeCollider;
+    public float ChargeDamage;
 
     [Header("Jump")]
 
@@ -94,6 +96,15 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         if (cs != null)
         {
             cs.TakeDamage(ElectroSuitDamage);
+        }
+    }
+
+    public void OnChargeHit(Collider2D other)
+    {
+        CharacterStatus cs = other.GetComponent<CharacterStatus>();
+        if (cs != null)
+        {
+            cs.TakeDamage(ChargeDamage);
         }
     }
 
@@ -182,6 +193,11 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
     public void HealDamage(float damage)
     {
+        Health = Mathf.Clamp(Health + damage, 0, MaxHealth);
+        if(GenericObjectKeeper.Instance.healParticles != null)
+        {
+            Instantiate(GenericObjectKeeper.Instance.healParticles, transform.position, Quaternion.identity);
+        }
     }
 }
 
@@ -310,6 +326,7 @@ namespace EGStates
             time = 0;
             Xdirection = -(int)Mathf.Sign((Owner.transform.position - Owner.currentTarget.transform.position).x);
             startX = Owner.transform.position.x;
+            Owner.ChargeCollider.SetActive(true);
         }
 
         public override void OnUpdate()
@@ -329,6 +346,7 @@ namespace EGStates
         public override void OnExit()
         {
             Owner.rb.velocity = new Vector2(0, Owner.rb.velocity.y);
+            Owner.ChargeCollider.SetActive(false);
         }
     }
 

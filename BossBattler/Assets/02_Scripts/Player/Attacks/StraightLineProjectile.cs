@@ -52,6 +52,7 @@ public class StraightLineProjectile : MonoBehaviour
         transform.localScale = new Vector3(0.5f+PowerLevel, 0.5f+PowerLevel, 1);
 
         transform.position = _position;
+
         if (rotateTransform != null)
         {
             rotateTransform.Rotate(0, 0, Vector2.SignedAngle(Vector2.up, _direction));

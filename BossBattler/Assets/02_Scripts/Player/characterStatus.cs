@@ -123,6 +123,10 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     {
         health = Mathf.Clamp(health + damage, 0, MaxHealth);
         ui.SetHealthBar(health, MaxHealth);
+        if (GenericObjectKeeper.Instance.healParticles != null)
+        {
+            Instantiate(GenericObjectKeeper.Instance.healParticles, transform.position, Quaternion.identity);
+        }
         if (health == 0) { Die(); }
     }
 
@@ -209,6 +213,11 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     {
         //Distance to other player
         return (transform.position - other.position).magnitude;
+    }
+    public float Dist(Vector3 po)
+    {
+        //Distance to other player
+        return (transform.position - po).magnitude;
     }
 }
 

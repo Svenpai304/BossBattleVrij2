@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9015507496556012452}
   - component: {fileID: 4242111832809818804}
   - component: {fileID: 5602130576326739817}
-  - component: {fileID: 6076636023885111421}
+  - component: {fileID: 4591964290282428349}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 2754725547468722825}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.1536, y: -0.0869, z: 0}
+  m_LocalScale: {x: 0.50718004, y: 1.1738, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8376078428279226825}
@@ -75,12 +75,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ad6b5cc3bc1673b40adf25eaa062174d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 0.8679245, g: 0.23253822, b: 0.23253822, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.29, y: 8}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -101,8 +101,8 @@ MonoBehaviour:
   OnCollision:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6739659436093165026}
-        m_TargetAssemblyTypeName: BlastSwordProjectile, Assembly-CSharp
+      - m_Target: {fileID: 832545317649774768}
+        m_TargetAssemblyTypeName: StraightLineProjectile, Assembly-CSharp
         m_MethodName: OnCollision
         m_Mode: 0
         m_Arguments:
@@ -113,7 +113,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &6076636023885111421
+--- !u!61 &4591964290282428349
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,14 +149,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.645, y: 4}
-    newSize: {x: 1.29, y: 8}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 2.8}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &2894796387317689403
 GameObject:
@@ -167,9 +167,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8376078428279226825}
-  - component: {fileID: 6739659436093165026}
+  - component: {fileID: 832545317649774768}
   m_Layer: 0
-  m_Name: BlastSword
+  m_Name: EnemyProj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,13 +185,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9015507496556012452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6739659436093165026
+--- !u!114 &832545317649774768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,10 +200,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2894796387317689403}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba5a8613120d396429ae4fb978396f13, type: 3}
+  m_Script: {fileID: 11500000, guid: d6d6be33942f9344e8a3d97d0c99e4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 2
-  RotationFast: 720
+  maxHits: 1
+  lifetime: 20
   rotateTransform: {fileID: 9015507496556012452}
-  spr: {fileID: 4242111832809818804}
