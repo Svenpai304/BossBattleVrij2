@@ -210,6 +210,11 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         //Distance to other player
         return (transform.position - other.position).magnitude;
     }
+    public float Dist(Vector3 po)
+    {
+        //Distance to other player
+        return (transform.position - po).magnitude;
+    }
 }
 
 public class CharacterBuff {

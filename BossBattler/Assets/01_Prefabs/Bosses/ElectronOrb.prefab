@@ -138,9 +138,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHits: 1000
-  speed: 10
-  amplitude: 4
-  wavelength: 2
+  speed: 7
+  amplitude: 12
+  wavelength: 3
   lifetime: 20
 --- !u!95 &834982740075640430
 Animator:
