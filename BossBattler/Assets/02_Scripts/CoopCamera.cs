@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class CoopCamera : MonoBehaviour
 {
     private List<CharacterStatus> characters = new List<CharacterStatus>();
+    [SerializeField] private Vector2 offset = Vector2.zero;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class CoopCamera : MonoBehaviour
         }
         newPos /= characters.Count;
 
-        setCamPos(newPos);
+        setCamPos(newPos + offset);
         RandomMovement();
 
         //Calculate RelativePos
