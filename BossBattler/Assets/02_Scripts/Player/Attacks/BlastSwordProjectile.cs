@@ -6,7 +6,7 @@ using UnityEngine;
 public class BlastSwordProjectile : MonoBehaviour
 {
     private IProjectileOwner owner;
-    private int maxHits;
+    private int maxHits = 1;
     private float damage;
     private float speed;
     private Vector2 direction;

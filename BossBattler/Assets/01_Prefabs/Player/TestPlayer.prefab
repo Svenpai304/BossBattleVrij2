@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4c1d176ab1a2649843b69b053b0593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashForce: 40
+  dashForce: 30
   dashStartForce: 1000
   gravMultiplier: 0.001
   dashing: 0
@@ -494,6 +494,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99cd59d24d600744a90d6c322578c77f, type: 2}
   - {fileID: 11400000, guid: 146ccae0f15f01d4eb58af06c7b1cfd4, type: 2}
   - {fileID: 11400000, guid: 7b31e7fcc3222614ca34b9b93f50d65a, type: 2}
+  cursorResetTime: 0.5
 --- !u!114 &2921832750783141837
 MonoBehaviour:
   m_ObjectHideFlags: 0
