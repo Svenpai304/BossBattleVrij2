@@ -183,7 +183,7 @@ MonoBehaviour:
   ui: {fileID: 0}
   MaxHealth: 100
   MaxPower: 100
-  MaxDashTime: 3
+  MaxDashTime: 0.8
   PowerRegen: 20
   isCasting: 0
   health: 0
@@ -474,8 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4c1d176ab1a2649843b69b053b0593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashForce: 30
-  dashStartForce: 1000
+  dashForce: 40
+  dashStartForce: 1200
   gravMultiplier: 0.001
   dashing: 0
 --- !u!114 &5011379757760672600

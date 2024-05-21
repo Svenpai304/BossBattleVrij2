@@ -16,6 +16,10 @@ public class ParallaxScroller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        transform.position = new Vector3(cam.transform.position.x * parallaxEffect.x,
+            cam.transform.position.y * parallaxEffect.y);
+
+        /*
         Vector2 temp = new Vector2(
             cam.transform.position.x * (1 - parallaxEffect.x),
             cam.transform.position.y * (1 - parallaxEffect.y)
@@ -35,6 +39,6 @@ public class ParallaxScroller : MonoBehaviour
             startPos.x -= length.x;
         }
 
-        transform.position = new Vector3(startPos.x + dist.x, startPos.y + dist.y, transform.position.z);
+        transform.position = new Vector3(startPos.x + dist.x, startPos.y + dist.y, transform.position.z);*/
     }
 }

@@ -52,7 +52,7 @@ public class CharacterDash : MonoBehaviour
     {
         dashing = true;
         jump.enabled = false;
-        if(status.DashTime == status.MaxDashTime)
+        if (status.DashTime == status.MaxDashTime)
         {
             rb.AddForce(look.LookDirection * dashStartForce * status.GroundSpeedMult);
         }
