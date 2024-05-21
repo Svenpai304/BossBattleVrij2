@@ -45,8 +45,9 @@ public class A12_Swords : ComboAttack, IProjectileOwner
         if (damageable != null && (object)damageable != status)
         {
             damageable.TakeDamage(damage * status.DamageDealMult);
+            return true;
         }
-        return true;
+        return false;
     }
 }
 
