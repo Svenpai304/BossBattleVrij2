@@ -135,10 +135,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.83, y: 10.92, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4658778984684216605}
+  - {fileID: 4518174275769256360}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &930604638880189573
@@ -248,10 +249,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9d098d94ad118349a7f19e3273fd684, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spr: {fileID: 6511855620513595880}
   MaxHealth: 25
   MaxSpeed: 31
   AccelMod: 0.65
-  Damage: 30
+  Damage: 20
+  ShootPoint: {fileID: 4518174275769256360}
   SpawnProj: {fileID: 832545317649774768, guid: 5bc2ebf21ba707042a72865da94232c3, type: 3}
   minAttackDelay: 2
   maxAttackDelay: 3
+  projSpeed: 15
+--- !u!1 &9219202340724893047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4518174275769256360}
+  m_Layer: 0
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4518174275769256360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9219202340724893047}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.362, y: -0.55, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6316272628341530147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
