@@ -123,10 +123,6 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     {
         health = Mathf.Clamp(health + damage, 0, MaxHealth);
         ui.SetHealthBar(health, MaxHealth);
-        if (GenericObjectKeeper.Instance.healParticles != null)
-        {
-            Instantiate(GenericObjectKeeper.Instance.healParticles, transform.position, Quaternion.identity);
-        }
         if (health == 0) { Die(); }
     }
 

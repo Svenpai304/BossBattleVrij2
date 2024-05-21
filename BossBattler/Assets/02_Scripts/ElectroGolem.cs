@@ -194,10 +194,6 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public void HealDamage(float damage)
     {
         Health = Mathf.Clamp(Health + damage, 0, MaxHealth);
-        if(GenericObjectKeeper.Instance.healParticles != null)
-        {
-            Instantiate(GenericObjectKeeper.Instance.healParticles, transform.position, Quaternion.identity);
-        }
     }
 }
 
