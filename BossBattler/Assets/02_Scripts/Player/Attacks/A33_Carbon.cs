@@ -11,9 +11,10 @@ public class A33_Carbon : A22_Swords
         {
             //Heal instead!
             damageable.HealDamage(damage * status.DamageDealMult);
-            ParticleManager.SpawnParticles(0, transform.position, transform.localScale, transform.rotation, transform);
+            ParticleManager.SpawnParticles(0, p.transform.position, p.transform.localScale, p.transform.rotation);
+            return true;
         }
-        return true;
+        return false;
     }
 }
 

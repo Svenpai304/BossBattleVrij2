@@ -65,7 +65,8 @@ public class CharacterMovement : MonoBehaviour
             directionX = context.ReadValue<Vector2>().x;
 
             //Allows players to pass through platforms 
-            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) { bc.excludeLayers = descendingExclude; }
+            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) 
+            { bc.excludeLayers = descendingExclude; }
             else { bc.excludeLayers = defaultExclude; }
         }
     }

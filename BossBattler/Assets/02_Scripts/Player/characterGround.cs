@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 //This script is used by both movement and jump to detect when the character is touching the ground
@@ -5,6 +6,8 @@ using UnityEngine;
 public class CharacterGround : MonoBehaviour
 {
     private bool onGround;
+    public float groundYpos;
+    private List<RaycastHit2D> raycastHits = new();
 
     [Header("Collider Settings")]
     [SerializeField][Tooltip("Length of the ground-checking collider")] private float groundLength = 0.95f;
@@ -16,7 +19,20 @@ public class CharacterGround : MonoBehaviour
     private void Update()
     {
         //Determine if the player is stood on objects on the ground layer, using a pair of raycasts
-        onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer) || Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer);
+        raycastHits.Clear();
+        raycastHits.Add(Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer));
+        raycastHits.Add(Physics2D.Raycast(transform.position - colliderOffset, Vector2.down, groundLength, groundLayer));
+
+        onGround = false;
+        foreach (var hit in raycastHits)
+        {
+            if (hit.collider != null)
+            {
+                onGround = true;
+                groundYpos = hit.point.y;
+            }
+        }
+
     }
 
     private void OnDrawGizmos()

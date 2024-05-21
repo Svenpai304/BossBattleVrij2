@@ -26,4 +26,10 @@ public class ParticleManager : MonoBehaviour
         GameObject obj = Instantiate(particles[id], position, rotation, parent);
         obj.transform.localScale = scale;
     }
+
+    public static void SpawnParticles(int id, Vector2 position, Vector2 scale, Quaternion rotation)
+    {
+        GameObject obj = Instantiate(particles[id], position, rotation);
+        obj.transform.localScale = scale;
+    }
 }

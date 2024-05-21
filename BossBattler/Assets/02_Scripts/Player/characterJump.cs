@@ -122,6 +122,10 @@ public class CharacterJump : MonoBehaviour
             //Reset it when we touch the ground, or jump
             coyoteTimeCounter = 0;
         }
+        if (onGround && transform.position.y < ground.groundYpos + 1)
+        {
+            transform.position = new Vector2(transform.position.x, ground.groundYpos + 1);
+        }
     }
 
     private void setPhysics()
@@ -148,6 +152,11 @@ public class CharacterJump : MonoBehaviour
         }
 
         calculateGravity();
+
+        if (onGround && transform.position.y < ground.groundYpos + 1)
+        {
+            transform.position = new Vector2(transform.position.x, ground.groundYpos + 1);
+        }
     }
 
     private void calculateGravity()
