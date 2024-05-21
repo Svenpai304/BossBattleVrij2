@@ -10,8 +10,9 @@ public class A23_Sunder : A22_Swords
         if (damageable != null && (object)damageable != status)
         {
             damageable.TakeDamage(damage * status.DamageDealMult);
+            return true;
         }
-        return true;
+        return false;
     }
 }
 
