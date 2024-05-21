@@ -11,6 +11,7 @@ public class CharacterLook : MonoBehaviour
 
     [SerializeField] private GameObject keyboardLookReticle;
     [SerializeField] private GameObject gamepadLookArrow;
+    [SerializeField] private SciencePack sciencePack;
     public float gamepadArrowOffset;
     private GameObject lookObject;
     private Transform gamepadArrow;
@@ -24,7 +25,8 @@ public class CharacterLook : MonoBehaviour
         if (playerInput != null && playerInput.devices.Contains(Keyboard.current))
         {
             isKeyboard = true;
-            lookObject = Instantiate(keyboardLookReticle, Camera.main.transform);
+            lookObject = Instantiate(keyboardLookReticle.gameObject, Camera.main.transform);
+            lookObject.GetComponent<CursorSpriteController>().Initialize(sciencePack);
             KeyboardLook(transform.position);
         }
         else

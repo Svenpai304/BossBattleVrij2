@@ -23,22 +23,30 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public float arenaMinX = -20, arenaMinY = 0, arenaMaxX = 20, arenaMaxY = 20;
 
     [Header("Idle")]
+    public GameObject ElectroSuitObject;
+    public ParticleSystem ElectroSuitBurst;
+    public float ElectroSuitDamage;
+    public float ElectroSuitInterval;
+    public float ElectroSuitDuration;
+    private float timer;
 
 
     [Header("Charge")]
     public float ChargeYThreshold;
     public float ChargeXThreshold;
+    public GameObject ChargeCollider;
+    public float ChargeDamage;
 
     [Header("Jump")]
 
     [Header("Copper Assault")]
-    public float caDistance;
-    public GameObject copperAssaultProjectile;
-    public GameObject copperAssaultExplosion;
+    public float CaDistance;
+    public GameObject CopperAssaultProjectile;
+    public GameObject CopperAssaultExplosion;
 
     [Header("Electron Orb")]
     public GameObject ElectronOrbProjectile;
-    public float electronOrbDamage;
+    public float ElectronOrbDamage;
 
 
     public float DamageDealMult { get; set; }
@@ -63,6 +71,41 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     {
         isGrounded = CheckGrounded();
         stateMachine.OnFixedUpdate();
+
+        timer += Time.deltaTime;
+        if(timer > ElectroSuitInterval)
+        {
+            timer = 0;
+            StartCoroutine(ActivateElectroSuit());
+        }
+    }
+
+    private IEnumerator ActivateElectroSuit()
+    {
+        if (ElectroSuitObject == null) { yield break; }
+        if (ElectroSuitBurst != null) { ElectroSuitBurst.Play(); }
+        ElectroSuitObject.SetActive(true);
+
+        yield return new WaitForSeconds(ElectroSuitDuration);
+        ElectroSuitObject.SetActive(false);
+    }
+
+    public void OnESHit(Collider2D other)
+    {
+        CharacterStatus cs = other.GetComponent<CharacterStatus>();
+        if (cs != null)
+        {
+            cs.TakeDamage(ElectroSuitDamage);
+        }
+    }
+
+    public void OnChargeHit(Collider2D other)
+    {
+        CharacterStatus cs = other.GetComponent<CharacterStatus>();
+        if (cs != null)
+        {
+            cs.TakeDamage(ChargeDamage);
+        }
     }
 
     private void SetupStateMachine()
@@ -150,6 +193,11 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
     public void HealDamage(float damage)
     {
+        Health = Mathf.Clamp(Health + damage, 0, MaxHealth);
+        if(GenericObjectKeeper.Instance.healParticles != null)
+        {
+            Instantiate(GenericObjectKeeper.Instance.healParticles, transform.position, Quaternion.identity);
+        }
     }
 }
 
@@ -161,6 +209,7 @@ namespace EGStates
 
         private float minIdleTime = 0.2f;
         private float maxIdleTime = 2f;
+        private bool coroutineActive;
 
         List<Type> validMoves = new();
 
@@ -168,12 +217,12 @@ namespace EGStates
 
         public override void OnEnter()
         {
-            Owner.StartCoroutine(ProcessPhase1());
         }
 
         public override void OnUpdate()
         {
-
+            if(coroutineActive) { return; }
+            Owner.StartCoroutine(ProcessPhase1());
         }
 
         public override void OnExit()
@@ -183,8 +232,9 @@ namespace EGStates
 
         private IEnumerator ProcessPhase1()
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
             if (!Owner.isGrounded || PlayerConnector.instance.players.Count == 0) { yield break; }
+            coroutineActive = true;
+            yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
             Owner.rb.velocity = Vector2.zero;
 
             validMoves.Clear();
@@ -195,7 +245,7 @@ namespace EGStates
             {
                 validMoves.Add(typeof(StartCharge));
             }
-            if (Owner.currentTarget.Dist(Owner.transform) < Owner.caDistance)
+            if (Owner.currentTarget.Dist(Owner.transform) < Owner.CaDistance)
             {
                 validMoves.Add(typeof(CopperAssault));
             }
@@ -221,6 +271,7 @@ namespace EGStates
 
             Debug.Log("Chosen state: " + newState);
             Owner.stateMachine.SwitchState(newState);
+            coroutineActive = false;
         }
     }
 
@@ -275,6 +326,7 @@ namespace EGStates
             time = 0;
             Xdirection = -(int)Mathf.Sign((Owner.transform.position - Owner.currentTarget.transform.position).x);
             startX = Owner.transform.position.x;
+            Owner.ChargeCollider.SetActive(true);
         }
 
         public override void OnUpdate()
@@ -294,6 +346,7 @@ namespace EGStates
         public override void OnExit()
         {
             Owner.rb.velocity = new Vector2(0, Owner.rb.velocity.y);
+            Owner.ChargeCollider.SetActive(false);
         }
     }
 
@@ -424,13 +477,14 @@ namespace EGStates
 
             for (int i = 0; i < count; i++)
             {
-                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.copperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
+                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.CopperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
                 p.Setup(this);
+
                 float angle = Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
                 angle += UnityEngine.Random.Range(-maxSpread, maxSpread);
-                Debug.Log(angle);
                 angle *= Mathf.Deg2Rad;
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
+
                 p.rb.AddForce(projectileForce * dir, ForceMode2D.Impulse);
                 p.rb.AddTorque(20);
                 yield return new WaitForSeconds(fireDelay);
@@ -453,7 +507,7 @@ namespace EGStates
             if (other.GetComponent<CharacterStatus>() != null)
             {
                 // Explode
-                UnityEngine.Object.Instantiate(Owner.copperAssaultExplosion, p.transform.position, p.transform.rotation);
+                UnityEngine.Object.Instantiate(Owner.CopperAssaultExplosion, p.transform.position, p.transform.rotation);
                 return true;
             }
             return false;
@@ -500,7 +554,7 @@ namespace EGStates
             CharacterStatus status = other.GetComponent<CharacterStatus>();
             if (status != null)
             {
-                status.TakeDamage(Owner.electronOrbDamage);
+                status.TakeDamage(Owner.ElectronOrbDamage);
                 return true;
             }
             return false;

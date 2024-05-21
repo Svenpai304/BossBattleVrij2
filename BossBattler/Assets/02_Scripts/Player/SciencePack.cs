@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ public class SciencePack : MonoBehaviour
     CharacterUI ui;
     [SerializeField] private ComboElement[] elements = new ComboElement[3];
     [SerializeField] private Queue<ComboElement> currentElements = new Queue<ComboElement>();
-
+    [SerializeField] private float cursorResetTime = 0.5f;
+    public event Action<int> CursorChanged;
+    
     private void Start()
     {
         status = GetComponent<CharacterStatus>();
@@ -25,14 +28,24 @@ public class SciencePack : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext c)
     {
+        bool isFired = false;
         if (c.started)
         {
-            if (currentElements.Count != 2) { return; }
+            if (currentElements.Count != 2)
+            {
+                CursorChanged?.Invoke(0);
+                return; 
+            }
+            CursorChanged?.Invoke(2);
             ComboAttackEntry entry = ElementManager.GetAttackEntry(currentElements.First().id, currentElements.Last().id);
-            if (entry != null) { entry.Fire(status); }
+            if (entry != null) { entry.Fire(status); isFired = true; }
             else Debug.Log("Combo not found");
             currentElements.Clear();
             ui.ClearActiveElements();
+        } 
+        if (c.canceled)
+        {
+            CursorChanged?.Invoke(1);
         }
     }
 
@@ -63,8 +76,7 @@ public class SciencePack : MonoBehaviour
         if (currentElements.Count > 1)
         {
             ui.SetActiveElement(0, currentElements.Last());
-        }
+        }   
         ui.SetActiveElement(1, currentElements.First());
     }
-
 }

@@ -123,6 +123,10 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     {
         health = Mathf.Clamp(health + damage, 0, MaxHealth);
         ui.SetHealthBar(health, MaxHealth);
+        if (GenericObjectKeeper.Instance.healParticles != null)
+        {
+            Instantiate(GenericObjectKeeper.Instance.healParticles, transform.position, Quaternion.identity);
+        }
         if (health == 0) { Die(); }
     }
 
@@ -176,11 +180,9 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     }
     public void BuffMoveSpeed(string _ID, float _dur, int _maxStacks, float BuffMod)
     {
-        Debug.Log("Movement speed change!");
         CharacterBuff oldBuff = getBuff(_ID);
         if (oldBuff == null)
         {
-            Debug.Log("New buff!");
             CharacterBuff newBuff = new CharacterBuff(_ID, _dur, _maxStacks, BuffMod > 1f);
             newBuff.MovementSpeed = BuffMod;
             Buffs.Add(newBuff);
