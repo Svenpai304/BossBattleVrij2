@@ -54,7 +54,7 @@ public class EnemyMinion : MonoBehaviour, IDamageable, IProjectileOwner
     public void TakeDamage(float damage)
     {
         if (!isAlive) return;
-        CurHealth += damage;
+        CurHealth -= damage;
         if (CurHealth < 0) Die();
     }
 

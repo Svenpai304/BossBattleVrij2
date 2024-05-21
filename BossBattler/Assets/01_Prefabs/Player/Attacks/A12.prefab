@@ -48,4 +48,4 @@ MonoBehaviour:
   swordCount: 6
   spreadAngle: 24
   damage: 18
-  speed: 20
+  speed: 28

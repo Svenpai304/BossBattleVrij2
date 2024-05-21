@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8660343576431127091}
   - component: {fileID: 8641028129601576913}
   m_Layer: 0
-  m_Name: EnemyHoverer
+  m_Name: EnemyCapacitor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 25
-  MaxSpeed: 34
-  AccelMod: 0.9
+  MaxSpeed: 31
+  AccelMod: 0.65
   Damage: 30
   SpawnProj: {fileID: 832545317649774768, guid: 5bc2ebf21ba707042a72865da94232c3, type: 3}
   minAttackDelay: 2
