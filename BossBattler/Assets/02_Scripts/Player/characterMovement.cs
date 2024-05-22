@@ -10,6 +10,7 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] MovementLimiter moveLimit;
+    [SerializeField] private ParticleSystem moveParticles;
     public CharacterStatus status;
     private Rigidbody2D body;
     private BoxCollider2D bc;
@@ -124,6 +125,19 @@ public class CharacterMovement : MonoBehaviour
             {
                 runWithAcceleration();
             }
+        }
+
+        //Handle move particle emission
+        if(onGround && Mathf.Abs(velocity.x) >= maxSpeed - 1)
+        {
+            if (!moveParticles.isPlaying)
+            {
+                moveParticles.Play();
+            }
+        }
+        else
+        {
+            moveParticles.Stop();
         }
     }
 
