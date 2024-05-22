@@ -16,6 +16,7 @@ public class CharacterMovement : MonoBehaviour
     private BoxCollider2D bc;
     private Animator animator;
     CharacterGround ground;
+    CharacterJump jump;
 
     [Header("Movement Stats")]
     [SerializeField, Range(0f, 20f)][Tooltip("Maximum movement speed")] public float maxSpeed = 10f;
@@ -42,6 +43,9 @@ public class CharacterMovement : MonoBehaviour
     private float acceleration;
     private float deceleration;
     private float turnSpeed;
+    private float descendingTimer;
+    private bool descending;
+    private bool descentStopDesired;
 
     [Header("Current State")]
     public bool onGround;
@@ -54,6 +58,7 @@ public class CharacterMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         ground = GetComponent<CharacterGround>();
         bc = GetComponent<BoxCollider2D>();
+        jump = GetComponent<CharacterJump>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -66,9 +71,16 @@ public class CharacterMovement : MonoBehaviour
             directionX = context.ReadValue<Vector2>().x;
 
             //Allows players to pass through platforms 
-            if (context.ReadValue<Vector2>().y < -holdingDownThreshold) 
-            { bc.excludeLayers = descendingExclude; }
-            else { bc.excludeLayers = defaultExclude; }
+            if (context.ReadValue<Vector2>().y < -holdingDownThreshold)
+            {
+                jump.descending = true;
+                descending = true;
+                bc.excludeLayers = descendingExclude;
+            }
+            else
+            {
+                descentStopDesired = true;
+            }
         }
     }
 
@@ -127,8 +139,23 @@ public class CharacterMovement : MonoBehaviour
             }
         }
 
+        //Handle platform descent timing
+        if (descending)
+        {
+            descendingTimer += Time.deltaTime;
+            if(descendingTimer > 0.5f && descentStopDesired)
+            {
+                descendingTimer = 0f;
+                descending = false;
+                descentStopDesired = false;
+
+                jump.descending = false;
+                bc.excludeLayers = defaultExclude;
+            }
+        }
+
         //Handle move particle emission
-        if(onGround && Mathf.Abs(velocity.x) >= maxSpeed - 1)
+        if (onGround && Mathf.Abs(velocity.x) >= maxSpeed - 1)
         {
             if (!moveParticles.isPlaying)
             {

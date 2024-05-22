@@ -49,6 +49,7 @@ public class CharacterJump : MonoBehaviour
     private bool pressingJump;
     public bool onGround;
     private bool currentlyJumping;
+    [HideInInspector] public bool descending;
 
     void Awake()
     {
@@ -122,10 +123,8 @@ public class CharacterJump : MonoBehaviour
             //Reset it when we touch the ground, or jump
             coyoteTimeCounter = 0;
         }
-        if (onGround && transform.position.y < ground.groundYpos + 1)
-        {
-            transform.position = new Vector2(transform.position.x, ground.groundYpos + 1);
-        }
+
+        CheckBelowGround();
     }
 
     private void setPhysics()
@@ -152,11 +151,7 @@ public class CharacterJump : MonoBehaviour
         }
 
         calculateGravity();
-
-        if (onGround && transform.position.y < ground.groundYpos + 1)
-        {
-            transform.position = new Vector2(transform.position.x, ground.groundYpos + 1);
-        }
+        CheckBelowGround();
     }
 
     private void calculateGravity()
@@ -278,6 +273,16 @@ public class CharacterJump : MonoBehaviour
     {
         //Used by the springy pad
         body.AddForce(Vector2.up * bounceAmount, ForceMode2D.Impulse);
+    }
+
+    private void CheckBelowGround()
+    {
+        if (onGround && !descending && transform.position.y < ground.groundYpos + 1 && body.velocity.y < 0)
+        {
+            transform.position = new Vector2(transform.position.x, ground.groundYpos + 1);
+            body.velocity = new Vector2(body.velocity.x, 0);
+            Debug.Log("Fixed Y position");
+        }
     }
 
 
