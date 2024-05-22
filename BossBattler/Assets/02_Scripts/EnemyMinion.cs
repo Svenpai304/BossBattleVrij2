@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMinion : MonoBehaviour, IDamageable, IProjectileOwner
 {
-    private SpriteRenderer spr;
+    public SpriteRenderer spr;
     public float MaxHealth;
     public float MaxSpeed;
     public float AccelMod;
@@ -28,7 +28,6 @@ public class EnemyMinion : MonoBehaviour, IDamageable, IProjectileOwner
 
     private void Start()
     {
-        spr = GetComponent<SpriteRenderer>();
         Init();
     }
 
@@ -54,7 +53,7 @@ public class EnemyMinion : MonoBehaviour, IDamageable, IProjectileOwner
     public void TakeDamage(float damage)
     {
         if (!isAlive) return;
-        CurHealth += damage;
+        CurHealth -= damage;
         if (CurHealth < 0) Die();
     }
 

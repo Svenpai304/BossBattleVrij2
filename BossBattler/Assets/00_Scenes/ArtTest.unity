@@ -1441,6 +1441,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackgroundElectroGolem
       objectReference: {fileID: 0}
+    - target: {fileID: 7103916908789282621, guid: 5e4bd9496ac2a154f8a0235dbaacc671, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050860075442870301, guid: 5e4bd9496ac2a154f8a0235dbaacc671, type: 3}
+      propertyPath: m_Size.y
+      value: 38.399998
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -5,9 +5,12 @@ using UnityEngine;
 public class EnemyHoverer : EnemyMinion
 {
     //This enemy hovers around an area and does pew pew pow pow
+    public Transform ShootPoint;
     public StraightLineProjectile SpawnProj;
     public float minAttackDelay;
     public float maxAttackDelay;
+    public float projSpeed;
+   
     private float attackCooldown;
     protected override void Init()
     {
@@ -30,14 +33,15 @@ public class EnemyHoverer : EnemyMinion
         //Speed/Deaccel == 1
         CurDistance -= CurSpeed * Time.deltaTime;
         transform.position += (MoveTarget - transform.position).normalized * CurSpeed * Time.deltaTime;
-        transform.Rotate(Vector3.forward, Vector2.SignedAngle(getLookVector(), PlayerTarget.transform.position-transform.position));
+       // transform.Rotate(Vector3.forward, Vector2.SignedAngle(getLookVector(), PlayerTarget.transform.position-transform.position));
 
         attackCooldown -= Time.deltaTime;
+        StartCoroutine(TurnInDirection());
         if (attackCooldown < 0)
         {
             attackCooldown = Random.Range(minAttackDelay, maxAttackDelay);
             Vector3 dir = (PlayerTarget.transform.position - transform.position).normalized;
-            Instantiate(SpawnProj).Setup(1f, 1, 7f, dir, transform.position + dir * 0.4f, this);
+            Instantiate(SpawnProj).Setup(1f, 1, projSpeed, dir, ShootPoint.position + dir * 0.2f, this);
         }
         if ((CurSpeed == 0 && MoveDir == -1)) //transform.position-MoveTarget).magnitude < CurSpeed+0.05f
         {
@@ -51,5 +55,25 @@ public class EnemyHoverer : EnemyMinion
         if (PlayerTarget == null) return;
         float mov = Random.Range(0f, 1f) < 0.5f ? -Random.Range(10f, 19f) : Random.Range(10f, 19f);
         setMoveTarget(PlayerTarget.transform.position + new Vector3(mov,Random.Range(8f, 15f)));
+    }
+
+    protected bool isTurning = false;
+    protected int CurrentDir = 1;
+    IEnumerator TurnInDirection()
+    {
+        int TurnDir = PlayerTarget.transform.position.x < transform.position.x ? 1 : -1;
+        if (CurrentDir == TurnDir) yield break;
+        if (isTurning) yield break;
+        isTurning = true;
+        CurrentDir = TurnDir;
+        float Turning = 0f;
+        while (Turning < 0.5f)
+        {
+            Turning += Time.deltaTime;
+            transform.localScale += new Vector3(2 * 4 * TurnDir * Time.deltaTime, 0);
+            yield return null;
+        }
+        transform.localScale = new Vector3(2 * TurnDir, 2);
+        isTurning = false;
     }
 }

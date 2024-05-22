@@ -12,6 +12,7 @@ public class CoopCamera : MonoBehaviour
     {
         characters = PlayerConnector.instance.players;
         PlayerConnector.instance.im.onPlayerJoined += OnPlayerJoin;
+        cam = GetComponent<Camera>();
     }
 
     Vector3 BasePos = Vector3.zero;
@@ -28,6 +29,16 @@ public class CoopCamera : MonoBehaviour
             newPos += (Vector2)character.transform.position;
         }
         newPos /= characters.Count;
+        float maxDis = 12f;
+        foreach (CharacterStatus character in characters)
+        {
+            float Dis = character.Dist(transform);
+            if (Dis > maxDis)
+            {
+                maxDis = Dis;
+            }
+        }
+        cam.orthographicSize = 12.6f + (maxDis * 0.2f);
 
         setCamPos(newPos + offset);
         RandomMovement();
@@ -35,6 +46,7 @@ public class CoopCamera : MonoBehaviour
         //Calculate RelativePos
     }
 
+    Camera cam;
 
     float WaveMoveTimer;
     Vector3 WaveWantPos;
