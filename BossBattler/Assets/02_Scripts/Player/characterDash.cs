@@ -10,6 +10,7 @@ public class CharacterDash : MonoBehaviour
     CharacterLook look;
     Rigidbody2D rb;
 
+    [SerializeField] private ParticleSystem dashParticles;
     public float dashForce;
     public float dashStartForce;
     public float gravMultiplier;
@@ -30,6 +31,7 @@ public class CharacterDash : MonoBehaviour
         if (dashing)
         {
             rb.AddForce(look.LookDirection * dashForce);
+            dashParticles.transform.rotation = Quaternion.LookRotation(-look.LookDirection);
             status.DashTime = Mathf.Clamp(status.DashTime - Time.fixedDeltaTime, 0, status.MaxDashTime);
             if(status.DashTime == 0)
             {
@@ -52,6 +54,7 @@ public class CharacterDash : MonoBehaviour
     {
         dashing = true;
         jump.enabled = false;
+        dashParticles.Play();
         if(status.DashTime == status.MaxDashTime)
         {
             rb.AddForce(look.LookDirection * dashStartForce * status.GroundSpeedMult);
@@ -64,6 +67,7 @@ public class CharacterDash : MonoBehaviour
     {
         dashing = false;
         jump.enabled = true;
+        dashParticles.Stop();
         rb.gravityScale /= gravMultiplier;
 
     }
