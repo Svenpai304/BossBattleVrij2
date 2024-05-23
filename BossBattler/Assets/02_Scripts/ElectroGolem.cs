@@ -11,6 +11,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     [HideInInspector] public StateMachine stateMachine = new();
     [HideInInspector] public CharacterStatus currentTarget;
     public Vector2 relocateDestination;
+    private BossHealthBar healthBar;
 
     [Header("Ground Check")]
     [SerializeField] private float groundCheckLength;
@@ -67,6 +68,8 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         PowerRegenMult = 1;
         Invulnerable = false;
         Health = MaxHealth;
+        healthBar = BossHealthBarManager.Instance.CreateHealthBar();
+        healthBar.Setup(MaxHealth, "Electro Golem");
         SetupStateMachine();
     }
 
@@ -183,6 +186,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         if (Invulnerable) { return; }
         damage *= DamageTakenMult;
         Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
+        healthBar.SetHealth(Health);
         if (Health == 0) { Die(); }
     }
 
@@ -203,6 +207,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public void HealDamage(float damage)
     {
         Health = Mathf.Clamp(Health + damage, 0, MaxHealth);
+        healthBar.SetHealth(Health);
     }
 }
 
