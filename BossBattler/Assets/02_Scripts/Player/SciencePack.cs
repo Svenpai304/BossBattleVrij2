@@ -28,7 +28,6 @@ public class SciencePack : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext c)
     {
-        bool isFired = false;
         if (c.started)
         {
             if (currentElements.Count != 2)
@@ -38,7 +37,10 @@ public class SciencePack : MonoBehaviour
             }
             CursorChanged?.Invoke(2);
             ComboAttackEntry entry = ElementManager.GetAttackEntry(currentElements.First().id, currentElements.Last().id);
-            if (entry != null) { entry.Fire(status); isFired = true; }
+            if (entry != null) 
+            { 
+                entry.Fire(status); 
+            }
             else Debug.Log("Combo not found");
             currentElements.Clear();
             ui.ClearActiveElements();

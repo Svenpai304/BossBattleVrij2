@@ -10,6 +10,7 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
 {
     CharacterLook cl;
     [HideInInspector] public CharacterUI ui;
+    public ParticleSystem castingParticles;
 
     List<CharacterBuff> Buffs = new List<CharacterBuff>();
 
