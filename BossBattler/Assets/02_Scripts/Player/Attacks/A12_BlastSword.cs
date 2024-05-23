@@ -45,6 +45,7 @@ public class A12_Swords : ComboAttack, IProjectileOwner
         if (damageable != null && (object)damageable != status)
         {
             damageable.TakeDamage(damage * status.DamageDealMult);
+            ParticleManager.SpawnParticles(1, p.transform.position, p.transform.localScale, p.transform.GetChild(0).transform.rotation);
             return true;
         }
         return false;

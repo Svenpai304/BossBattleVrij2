@@ -45,8 +45,9 @@ public class A22_Swords : ComboAttack, IProjectileOwner
         var damageable = other.gameObject.GetComponent<IDamageable>();
         if (damageable != null && damageable != (IDamageable)status)
         {
-            Debug.Log("Hit damageable");
             damageable.TakeDamage(damage * status.DamageDealMult);
+            Quaternion particleRotation = Quaternion.Euler(0, 0, p.transform.GetChild(0).rotation.eulerAngles.z - 90);
+            ParticleManager.SpawnParticles(1, p.transform.position, p.transform.localScale, particleRotation);
             return true;
         }
         return false;
