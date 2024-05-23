@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyHoverer : EnemyMinion
 {
@@ -10,8 +12,8 @@ public class EnemyHoverer : EnemyMinion
     public float minAttackDelay;
     public float maxAttackDelay;
     public float projSpeed;
-   
     private float attackCooldown;
+
     protected override void Init()
     {
     }
@@ -62,18 +64,22 @@ public class EnemyHoverer : EnemyMinion
     IEnumerator TurnInDirection()
     {
         int TurnDir = PlayerTarget.transform.position.x < transform.position.x ? 1 : -1;
-        if (CurrentDir == TurnDir) yield break;
-        if (isTurning) yield break;
+        if (CurrentDir == TurnDir || isTurning)
+            yield break;
+
         isTurning = true;
         CurrentDir = TurnDir;
+        
         float Turning = 0f;
-        while (Turning < 0.5f)
+        /*while (Turning < 0.5f)
         {
             Turning += Time.deltaTime;
-            transform.localScale += new Vector3(2 * 4 * TurnDir * Time.deltaTime, 0);
             yield return null;
-        }
-        transform.localScale = new Vector3(2 * TurnDir, 2);
+        }*/
+
+        spr.flipX = TurnDir == -1;
         isTurning = false;
     }
 }
+
+
