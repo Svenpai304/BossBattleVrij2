@@ -15,4 +15,5 @@ MonoBehaviour:
   id: 0100000001000000
   powerCost: 30
   castingTime: 0.7
+  castingParticleColor: {r: 0, g: 0.90088606, b: 1, a: 1}
   effectObject: {fileID: 7238660397512196238, guid: 3e84326a76c2a3543a57e85c3f981c4a, type: 3}
