@@ -444,6 +444,12 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 136
+  defaultExclude:
+    serializedVersion: 2
+    m_Bits: 0
+  descendingExclude:
+    serializedVersion: 2
+    m_Bits: 128
   isGrounded: 0
   MaxHealth: 200
   arenaMinX: -20
@@ -459,6 +465,7 @@ MonoBehaviour:
   ChargeXThreshold: 20
   ChargeCollider: {fileID: 555418761963403400}
   ChargeDamage: 30
+  isDescending: 0
   CaDistance: 10
   CopperAssaultProjectile: {fileID: 4884491296823045301, guid: d0ce0b4e01d7ccc49966467aa32bab9d, type: 3}
   CopperAssaultExplosion: {fileID: 1519638329381169421, guid: 4551717cf00a816488eb07fbd3d6d42a, type: 3}

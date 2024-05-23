@@ -10,12 +10,14 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public Rigidbody2D rb;
     [HideInInspector] public StateMachine stateMachine = new();
     [HideInInspector] public CharacterStatus currentTarget;
-    [HideInInspector] public Vector2 relocateDestination;
+    public Vector2 relocateDestination;
 
     [Header("Ground Check")]
     [SerializeField] private float groundCheckLength;
     [SerializeField] private float groundCheckOffset;
     public LayerMask groundMask;
+    public LayerMask defaultExclude;
+    public LayerMask descendingExclude;
     public bool isGrounded;
 
     [Header("General stats")]
@@ -38,6 +40,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public float ChargeDamage;
 
     [Header("Jump")]
+    [HideInInspector] public bool isDescending;
 
     [Header("Copper Assault")]
     public float CaDistance;
@@ -77,6 +80,12 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         {
             timer = 0;
             StartCoroutine(ActivateElectroSuit());
+        }
+
+        if(isDescending && transform.position.y <= relocateDestination.y)
+        {
+            rb.excludeLayers = defaultExclude;
+            isDescending = false;
         }
     }
 
@@ -228,7 +237,7 @@ namespace EGStates
 
         private IEnumerator ProcessPhase1()
         {
-            if (!Owner.isGrounded || PlayerConnector.instance.players.Count == 0) { yield break; }
+            if (!Owner.isGrounded || Owner.isDescending || PlayerConnector.instance.players.Count == 0) { yield break; }
             coroutineActive = true;
             yield return new WaitForSeconds(UnityEngine.Random.Range(minIdleTime, maxIdleTime));
             Owner.rb.velocity = Vector2.zero;
@@ -261,7 +270,7 @@ namespace EGStates
             {
                 Vector2 farthest = Owner.FarthestPlayer().transform.position;
                 farthest.x = Mathf.Clamp(farthest.x, Owner.arenaMinX, Owner.arenaMaxX);
-                farthest.y = Mathf.Clamp(farthest.y, Owner.arenaMinY, Owner.arenaMaxY);
+                farthest.y = Mathf.Clamp(farthest.y + 1, Owner.arenaMinY, Owner.arenaMaxY);
                 Owner.relocateDestination = farthest;
             }
 
@@ -353,7 +362,8 @@ namespace EGStates
 
         private float Yspeed = 20;
         private float Xaccel = 3;
-        private float targetY = 15;
+        private float targetY = 30;
+        private float targetYOffset = 9;
         private float startDelay = 0.5f;
         private float maxTime = 6;
         private float time;
@@ -364,6 +374,7 @@ namespace EGStates
         public override void OnEnter()
         {
             time = 0;
+            targetY = Owner.relocateDestination.y + targetYOffset;
             Xdirection = Mathf.Sign(Owner.relocateDestination.x - Owner.transform.position.x);
             Owner.StartCoroutine(Start());
         }
@@ -427,6 +438,8 @@ namespace EGStates
                 Owner.rb.gravityScale = 3;
                 Owner.rb.velocity = new Vector2(Owner.rb.velocity.x / 5, 0);
                 Owner.rb.isKinematic = false;
+                Owner.rb.excludeLayers = Owner.descendingExclude;
+                Owner.isDescending = true;
                 Owner.stateMachine.SwitchState(typeof(Idle));
             }
         }
