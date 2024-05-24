@@ -10,6 +10,8 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public Rigidbody2D rb;
     [HideInInspector] public StateMachine stateMachine = new();
     [HideInInspector] public CharacterStatus currentTarget;
+    [HideInInspector] public Animator animator;
+    public SpriteRenderer spriteRenderer;
     public Vector2 relocateDestination;
     private BossHealthBar healthBar;
 
@@ -41,14 +43,17 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public float ChargeDamage;
 
     [Header("Jump")]
-    [HideInInspector] public bool isDescending;
+    public bool isDescending;
+    public ParticleSystem hoverParticles;
 
     [Header("Copper Assault")]
     public float CaDistance;
+    public Transform CaOffset;
     public GameObject CopperAssaultProjectile;
     public GameObject CopperAssaultExplosion;
 
     [Header("Electron Orb")]
+    public Transform EoOffset;
     public GameObject ElectronOrbProjectile;
     public float ElectronOrbDamage;
 
@@ -70,6 +75,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         Health = MaxHealth;
         healthBar = BossHealthBarManager.Instance.CreateHealthBar();
         healthBar.Setup(MaxHealth, "Electro Golem");
+        animator = GetComponent<Animator>();
         SetupStateMachine();
     }
 
@@ -85,7 +91,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
             StartCoroutine(ActivateElectroSuit());
         }
 
-        if(isDescending && transform.position.y <= relocateDestination.y)
+        if(isDescending && transform.position.y <= relocateDestination.y + 4)
         {
             rb.excludeLayers = defaultExclude;
             isDescending = false;
@@ -227,6 +233,7 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            Owner.animator.SetInteger("state", 0);
         }
 
         public override void OnUpdate()
@@ -237,7 +244,6 @@ namespace EGStates
 
         public override void OnExit()
         {
-
         }
 
         private IEnumerator ProcessPhase1()
@@ -281,6 +287,12 @@ namespace EGStates
 
             Debug.Log("Chosen state: " + newState);
             Owner.stateMachine.SwitchState(newState);
+            bool turnDir = Owner.currentTarget.transform.position.x > Owner.transform.position.x;
+            if (newState == typeof(StartCharge))
+            {
+                turnDir = !turnDir;
+            }
+            Owner.spriteRenderer.flipX = turnDir;
             coroutineActive = false;
         }
     }
@@ -296,6 +308,8 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            Owner.animator.SetInteger("state", 1);
+            Owner.animator.speed = -0.5f;
             time = 0;
             Xdirection = (int)Mathf.Sign((Owner.transform.position - Owner.currentTarget.transform.position).x);
             Owner.rb.velocity = Vector2.zero;
@@ -333,6 +347,7 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            Owner.animator.speed = 1;
             time = 0;
             Xdirection = -(int)Mathf.Sign((Owner.transform.position - Owner.currentTarget.transform.position).x);
             startX = Owner.transform.position.x;
@@ -378,6 +393,8 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            Owner.hoverParticles.Play(true);
+            Owner.animator.SetInteger("state", 2);
             time = 0;
             targetY = Owner.relocateDestination.y + targetYOffset;
             Xdirection = Mathf.Sign(Owner.relocateDestination.x - Owner.transform.position.x);
@@ -417,7 +434,7 @@ namespace EGStates
     {
 
         // Hover towards destination
-
+        
         private float speed = 10;
         private float maxTime = 6;
         private float time;
@@ -445,6 +462,7 @@ namespace EGStates
                 Owner.rb.isKinematic = false;
                 Owner.rb.excludeLayers = Owner.descendingExclude;
                 Owner.isDescending = true;
+                Owner.hoverParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 Owner.stateMachine.SwitchState(typeof(Idle));
             }
         }
@@ -473,6 +491,7 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            Owner.animator.SetInteger("state", 3);
             Owner.StartCoroutine(Process());
         }
 
@@ -487,14 +506,17 @@ namespace EGStates
 
         private IEnumerator Process()
         {
+            yield return new WaitForSeconds(Time.deltaTime * 3);
+            Owner.animator.speed = 0;
             yield return new WaitForSeconds(startDelay);
 
+            Owner.animator.speed = 1;
             for (int i = 0; i < count; i++)
             {
-                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.CopperAssaultProjectile, Owner.transform.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
+                PhysicsProjectile p = UnityEngine.Object.Instantiate(Owner.CopperAssaultProjectile, Owner.CaOffset.position, Quaternion.identity).GetComponent<PhysicsProjectile>();
                 p.Setup(this);
 
-                float angle = Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.transform.position);
+                float angle = Vector2.SignedAngle(Vector2.right, Owner.currentTarget.transform.position - Owner.CaOffset.position);
                 angle += UnityEngine.Random.Range(-maxSpread, maxSpread);
                 angle *= Mathf.Deg2Rad;
                 Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
@@ -503,8 +525,10 @@ namespace EGStates
                 p.rb.AddTorque(20);
                 yield return new WaitForSeconds(fireDelay);
             }
+            Owner.animator.speed = 0;
 
             yield return new WaitForSeconds(endDelay);
+            Owner.animator.speed = 1;
             Owner.stateMachine.SwitchState(typeof(Idle));
         }
 
@@ -540,6 +564,7 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            Owner.animator.SetInteger("state", 4);
             Owner.StartCoroutine(Process());
         }
 
@@ -554,9 +579,12 @@ namespace EGStates
 
         private IEnumerator Process()
         {
+            yield return new WaitForSeconds(Time.deltaTime * 3);
+            Owner.animator.speed = 0;
             yield return new WaitForSeconds(startDelay);
+            Owner.animator.speed = 1;
 
-            SineProjectile p = UnityEngine.Object.Instantiate(Owner.ElectronOrbProjectile, Owner.transform.position, Quaternion.identity).GetComponent<SineProjectile>();
+            SineProjectile p = UnityEngine.Object.Instantiate(Owner.ElectronOrbProjectile, Owner.EoOffset.position, Quaternion.identity).GetComponent<SineProjectile>();
             p.Setup(1, (int)Mathf.Sign(Owner.currentTarget.transform.position.x - Owner.transform.position.x), this);
 
             yield return new WaitForSeconds(endDelay);
