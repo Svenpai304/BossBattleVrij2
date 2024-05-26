@@ -4576,4 +4576,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 4534002786350724241}
   healthBarPrefab: {fileID: 2258193537267516354, guid: d7ba7be424f118d4ba70d48b8abbbf6d, type: 3}
-  yOffset: -40
+  yOffset: -70
