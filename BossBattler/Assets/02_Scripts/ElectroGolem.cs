@@ -91,7 +91,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
             StartCoroutine(ActivateElectroSuit());
         }
 
-        if(isDescending && transform.position.y <= relocateDestination.y + 4)
+        if(isDescending && transform.position.y <= relocateDestination.y + 2)
         {
             rb.excludeLayers = defaultExclude;
             isDescending = false;
@@ -396,7 +396,7 @@ namespace EGStates
             Owner.hoverParticles.Play(true);
             Owner.animator.SetInteger("state", 2);
             time = 0;
-            targetY = Owner.relocateDestination.y + targetYOffset;
+            targetY = Mathf.Min(Owner.relocateDestination.y + targetYOffset, Owner.arenaMaxY);
             Xdirection = Mathf.Sign(Owner.relocateDestination.x - Owner.transform.position.x);
             Owner.StartCoroutine(Start());
         }
@@ -435,7 +435,7 @@ namespace EGStates
 
         // Hover towards destination
         
-        private float speed = 10;
+        private float speed = 17;
         private float maxTime = 6;
         private float time;
         private float Xdirection;

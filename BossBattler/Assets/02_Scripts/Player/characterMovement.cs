@@ -143,7 +143,7 @@ public class CharacterMovement : MonoBehaviour
         if (descending)
         {
             descendingTimer += Time.deltaTime;
-            if(descendingTimer > 0.5f && descentStopDesired)
+            if(descendingTimer > 0.2f && descentStopDesired)
             {
                 descendingTimer = 0f;
                 descending = false;
