@@ -19,6 +19,7 @@ public class ComboAttackEntry : ScriptableObject
         //if(status.Power < powerCost) { return; }
         status.usePower(powerCost);
         status.StartCoroutine(StrikeDelay(status));
+        ParticleManager.SpawnParticles(2,status.transform.position + (Input.mousePosition-status.transform.position).normalized*0.4f,new Vector2(1,1),Quaternion.identity);
         
     }
     IEnumerator StrikeDelay(CharacterStatus status)
