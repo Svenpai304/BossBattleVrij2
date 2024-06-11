@@ -58,6 +58,14 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     public GameObject ElectronOrbProjectile;
     public float ElectronOrbDamage;
 
+    [Header("Phase 2")]
+    public GameObject dronePrefab;
+    public float healthThreshold;
+    [HideInInspector] public bool phase2Entered;
+    public float droneSpawnY;
+    public float droneSpawnXRange;
+
+
 
     public float DamageDealMult { get; set; }
     public float DamageTakenMult { get; set; }
@@ -206,6 +214,17 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
         healthBar.SetHealth(Health);
         if (Health == 0) { Die(); }
+        if(Health <= healthThreshold) 
+        { 
+            phase2Entered = true;
+            SpawnDrone(); SpawnDrone();
+        }
+    }
+
+    public void SpawnDrone()
+    {
+        Vector2 pos = new Vector2(UnityEngine.Random.Range(-droneSpawnXRange, droneSpawnXRange), droneSpawnY);
+        Instantiate(dronePrefab, pos, Quaternion.identity);
     }
 
     public void Die()
@@ -307,6 +326,11 @@ namespace EGStates
                 turnDir = !turnDir;
             }
             Owner.spriteRenderer.flipX = turnDir;
+
+            if (Owner.phase2Entered)
+            {
+                Owner.SpawnDrone();
+            }
             coroutineActive = false;
         }
     }

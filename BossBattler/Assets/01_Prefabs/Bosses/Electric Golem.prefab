@@ -10225,6 +10225,11 @@ MonoBehaviour:
   EoOffset: {fileID: 1178429360228230534}
   ElectronOrbProjectile: {fileID: 2509743005164499303, guid: 9fc5f8d2fce2dc34da5819eb80406094, type: 3}
   ElectronOrbDamage: 10
+  dronePrefab: {fileID: 7449877266144836129, guid: f3c4091425e139f44a664a579220c69a, type: 3}
+  healthThreshold: 200
+  phase2Entered: 0
+  droneSpawnY: 50
+  droneSpawnXRange: 40
 --- !u!61 &4480215344013824983
 BoxCollider2D:
   m_ObjectHideFlags: 0
