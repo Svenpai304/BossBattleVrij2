@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9015507496556012452}
   - component: {fileID: 4242111832809818804}
   - component: {fileID: 5602130576326739817}
+  - component: {fileID: 5617384233833227330}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -112,6 +113,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!58 &5617384233833227330
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754725547468722825}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &2894796387317689403
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +195,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeCurrent: 4
   sizeReduction: 0.3
+  projectileDestroyRadius: 5
+  explosionDamage: 20
   lifetime: 2.5
   explosionObject: {fileID: 0}
   spr: {fileID: 4242111832809818804}

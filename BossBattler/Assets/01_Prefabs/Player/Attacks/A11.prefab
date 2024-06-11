@@ -44,5 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a098bd2b170ae4383fa138bb07675e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status: {fileID: 0}
   prefab: {fileID: 2894796387317689403, guid: 5e18d296d99ca814784b0d435c1ff399, type: 3}
   power: 1
+  projectileDestroyRadius: 5
+  explosionDamage: 20
+  lifetime: 10

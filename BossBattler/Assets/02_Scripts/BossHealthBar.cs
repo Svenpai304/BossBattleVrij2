@@ -37,7 +37,6 @@ public class BossHealthBar : MonoBehaviour
                 displayedHealth = health;
             }
             healthBar.fillAmount = displayedHealth / maxHealth;
-            Debug.Log("Boss bar fill amount: " + displayedHealth / maxHealth);
         }
     }
 }

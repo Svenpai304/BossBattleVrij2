@@ -91,7 +91,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
             StartCoroutine(ActivateElectroSuit());
         }
 
-        if(isDescending && transform.position.y <= relocateDestination.y + 2)
+        if(isDescending && transform.position.y <= relocateDestination.y + 4)
         {
             rb.excludeLayers = defaultExclude;
             isDescending = false;
@@ -238,6 +238,7 @@ namespace EGStates
 
         public override void OnUpdate()
         {
+            Debug.Log("State selection coroutine running: " + coroutineActive);
             if(coroutineActive) { return; }
             Owner.StartCoroutine(ProcessPhase1());
         }
@@ -393,6 +394,7 @@ namespace EGStates
 
         public override void OnEnter()
         {
+            if(Owner.rb.isKinematic) { Owner.rb.isKinematic = false; }
             Owner.hoverParticles.Play(true);
             Owner.animator.SetInteger("state", 2);
             time = 0;

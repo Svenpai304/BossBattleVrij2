@@ -5,7 +5,7 @@ using UnityEngine;
 public class SimpleAttack : ComboAttack, IProjectileOwner
 {
     //The Simple Attack simply creates an object
-    protected CharacterStatus status;
+    [HideInInspector] public CharacterStatus status;
     public GameObject prefab;
     public float power = 1f;
     public override void OnFire(CharacterStatus _status)
@@ -17,10 +17,10 @@ public class SimpleAttack : ComboAttack, IProjectileOwner
         StartCoroutine(Process());
     }
 
-    protected IEnumerator Process()
+    protected virtual IEnumerator Process()
     {
         CreateAttack();
-        Destroy(this);
+        Destroy(gameObject);
         yield break;
     }
 

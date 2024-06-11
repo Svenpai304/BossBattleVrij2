@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SineProjectile : MonoBehaviour
+public class SineProjectile : MonoBehaviour, IProjectile
 {
 
     private IProjectileOwner owner;
@@ -71,6 +71,10 @@ public class SineProjectile : MonoBehaviour
             Fade -= Time.deltaTime;
             yield return null;
         }
+        Destroy(gameObject);
+    }
+    public void DestroyProjectile()
+    {
         Destroy(gameObject);
     }
 

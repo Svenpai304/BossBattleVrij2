@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 
-public class BlastSwordProjectile : MonoBehaviour
+public class BlastSwordProjectile : MonoBehaviour, IProjectile
 {
     private IProjectileOwner owner;
     private int maxHits = 1;
@@ -80,5 +80,9 @@ public class BlastSwordProjectile : MonoBehaviour
             yield return null;
         }
         Destroy(gameObject);
+    }
+    public void DestroyProjectile()
+    {
+        Die();
     }
 }

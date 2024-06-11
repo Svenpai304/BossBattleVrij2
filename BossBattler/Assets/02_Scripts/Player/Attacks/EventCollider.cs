@@ -12,5 +12,10 @@ public class EventCollider : MonoBehaviour
         OnCollision?.Invoke(collision.collider);
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        OnCollision?.Invoke(other);
+    }
+
 
 }

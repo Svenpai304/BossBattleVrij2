@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 
-public class StraightLineProjectile : MonoBehaviour
+public class StraightLineProjectile : MonoBehaviour, IProjectile
 {
     private IProjectileOwner owner;
     [SerializeField] private int maxHits;
@@ -66,6 +66,11 @@ public class StraightLineProjectile : MonoBehaviour
     public virtual void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void DestroyProjectile()
+    {
+        Die();
     }
 }
 public interface IProjectileOwner

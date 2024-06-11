@@ -191,6 +191,10 @@ PrefabInstance:
       propertyPath: arenaMaxY
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 8493728877686724348, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: CaDistance
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -320,8 +324,8 @@ Transform:
   m_GameObject: {fileID: 308719566}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 45, z: 0}
-  m_LocalScale: {x: 110, y: 4, z: 1}
+  m_LocalPosition: {x: 0, y: 73.7576, z: 0}
+  m_LocalScale: {x: 110, y: 41.5152, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

@@ -8,6 +8,8 @@ public class HydroSphere : MonoBehaviour
     private IProjectileOwner owner;
     [SerializeField] private float sizeCurrent;
     [SerializeField] private float sizeReduction;
+    [SerializeField] private float projectileDestroyRadius;
+    [SerializeField] private float explosionDamage;
     private Vector2 direction;
     public float lifetime = 4;
     public GameObject explosionObject; //Add Later
@@ -19,7 +21,7 @@ public class HydroSphere : MonoBehaviour
     private void FixedUpdate()
     {
         sizeCurrent -= sizeReduction * Time.deltaTime;
-        transform.localScale = new Vector3(sizeCurrent, sizeCurrent, 1)*(0.5f+defensivePower);
+        transform.localScale = new Vector3(sizeCurrent, sizeCurrent, 1) * (0.5f + defensivePower);
 
         lifetime -= Time.deltaTime;
         if (lifetime <= 0)
@@ -34,7 +36,12 @@ public class HydroSphere : MonoBehaviour
     public void OnCollision(Collider2D other)
     {
         if (isFading) return;
-        Die(true);
+        var i = other.GetComponentInParent<IProjectile>();
+        if (i != null)
+        {
+            owner.OnProjectileHit(other, gameObject);
+            Die(true);
+        }
         // This shield absorbs large projectiles and explodes if
     }
     public virtual void Setup(float _defensePower, Transform parent, Vector2 _position, IProjectileOwner _owner)

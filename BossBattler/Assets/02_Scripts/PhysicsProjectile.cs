@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicsProjectile : MonoBehaviour
+public class PhysicsProjectile : MonoBehaviour, IProjectile
 {
     private IProjectileOwner owner;
     public Rigidbody2D rb;
@@ -34,5 +34,9 @@ public class PhysicsProjectile : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject);
+    }
+    public void DestroyProjectile()
+    {
+        Die();
     }
 }
