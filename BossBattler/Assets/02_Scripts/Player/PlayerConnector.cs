@@ -7,25 +7,29 @@ using UnityEngine.UIElements;
 public class PlayerConnector : MonoBehaviour
 {
     public static PlayerConnector instance;
-    public PlayerInputManager im;
-    [SerializeField] private List<CharacterUI> characterUIs = new List<CharacterUI>();
+    [SerializeField] private List<Color> characterColors = new();
 
     public List<CharacterStatus> players = new();
 
-    private void Awake()
+    private void Start()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
         instance = this;
-        im = PlayerInputManager.instance;
-        im.onPlayerJoined += OnPlayerJoined;
+        PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
     }
 
     public void OnPlayerJoined(PlayerInput input)
     {
-        CharacterStatus cs = input.GetComponent<CharacterStatus>();
-        if (cs != null)
+        if (input.TryGetComponent<CharacterStatus>(out var cs))
         {
             players.Add(cs);
-            cs.Setup(characterUIs[players.Count - 1]);
+            DontDestroyOnLoad(cs.gameObject);
+            cs.sprite.color = characterColors[players.Count - 1];
         }
     }
 }

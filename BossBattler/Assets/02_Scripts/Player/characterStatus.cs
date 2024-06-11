@@ -9,8 +9,14 @@ using UnityEngine.InputSystem;
 public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
 {
     CharacterLook cl;
+    CharacterMovement cm;
+    CharacterJump cj;
+    SciencePack sp;
+    CharacterDash cd;
+    Rigidbody2D rb;
     [HideInInspector] public CharacterUI ui;
     public ParticleSystem castingParticles;
+    public SpriteRenderer sprite;
 
     List<CharacterBuff> Buffs = new List<CharacterBuff>();
 
@@ -36,6 +42,7 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     private float power;
     private float dashTime;
     private float powerRegenDelay;
+    private bool setupComplete = false;
 
     public float getPowerDamageMod()
     {
@@ -56,11 +63,29 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         this.ui = ui;
         this.ui.Setup(this);
         cl = GetComponent<CharacterLook>();
+        cm = GetComponent<CharacterMovement>();
+        cj = GetComponent<CharacterJump>();
+        cd = GetComponent<CharacterDash>();
+        sp = GetComponent<SciencePack>();
+        rb = GetComponent<Rigidbody2D>();
         ResetStatus();
+    }
+
+    public void EnableCharacter()
+    {
+        setupComplete = true;
+        cl.enabled = true;
+        cm.enabled = true;
+        cj.enabled = true;
+        cd.enabled = true;
+        sp.enabled = true;
+        sprite.enabled = true;
+        rb.simulated = true;
     }
 
     private void FixedUpdate()
     {
+        if(!setupComplete) { return; }
         float mod = 1f;
         if (powerRegenDelay > 0f)
         {

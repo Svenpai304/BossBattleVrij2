@@ -11,7 +11,7 @@ public class CoopCamera : MonoBehaviour
     private void Start()
     {
         characters = PlayerConnector.instance.players;
-        PlayerConnector.instance.im.onPlayerJoined += OnPlayerJoin;
+        PlayerInputManager.instance.onPlayerJoined += OnPlayerJoin;
         cam = GetComponent<Camera>();
     }
 

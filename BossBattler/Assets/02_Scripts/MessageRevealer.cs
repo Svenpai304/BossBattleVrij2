@@ -25,6 +25,13 @@ public class MessageRevealer : MonoBehaviour
         StartCoroutine(RevealText());
     }
 
+    public void ClearText()
+    {
+        StopAllCoroutines();
+        MessageText = string.Empty;
+        text.text = string.Empty;
+    }
+
     private IEnumerator RevealText()
     {
         text.text = "";

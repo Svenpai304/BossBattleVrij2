@@ -14,7 +14,7 @@ public class SciencePack : MonoBehaviour
     [SerializeField] private float cursorResetTime = 0.5f;
     public event Action<int> CursorChanged;
     
-    private void Start()
+    private void OnEnable()
     {
         status = GetComponent<CharacterStatus>();
         ui = status.ui;

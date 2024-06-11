@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/00_Scenes/SvenTest.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/00_Scenes/MainMenu.unity
+    guid: 50d6d2907f20a2b40963dc0111194d31
+  - enabled: 1
+    path: Assets/00_Scenes/TheLab.unity
+    guid: 4bc56fe77eacd0848bc4f4c7194e3bfb
+  - enabled: 1
+    path: Assets/00_Scenes/BattleElectroGolem.unity
+    guid: c700d9edd8cc3104cab40f6ce52dfbad
   m_configObjects: {}

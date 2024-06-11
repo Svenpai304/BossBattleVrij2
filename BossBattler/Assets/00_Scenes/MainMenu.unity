@@ -204,7 +204,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 109353389}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 195200593}
+        m_TargetAssemblyTypeName: MenuButtons, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &109353389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +267,7 @@ GameObject:
   - component: {fileID: 195200591}
   - component: {fileID: 195200590}
   - component: {fileID: 195200589}
+  - component: {fileID: 195200593}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -345,6 +358,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &195200593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195200588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aca37aa19b886c4c862bf8dc6731b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &314270404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,7 +1228,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1698827012}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 195200593}
+        m_TargetAssemblyTypeName: MenuButtons, Assembly-CSharp
+        m_MethodName: LoadSceneIndex
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1698827012
 MonoBehaviour:
   m_ObjectHideFlags: 0

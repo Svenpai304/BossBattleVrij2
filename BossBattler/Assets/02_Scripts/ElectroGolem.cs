@@ -26,6 +26,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
     [Header("General stats")]
     public float MaxHealth;
     public float arenaMinX = -20, arenaMinY = 0, arenaMaxX = 20, arenaMaxY = 20;
+    private bool stopStateMachine = false;
 
     [Header("Idle")]
     public GameObject ElectroSuitObject;
@@ -81,6 +82,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
     private void FixedUpdate()
     {
+        if(stopStateMachine) { return; }
         isGrounded = CheckGrounded();
         stateMachine.OnFixedUpdate();
 
@@ -96,6 +98,18 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
             rb.excludeLayers = defaultExclude;
             isDescending = false;
         }
+    }
+
+    public void StartFight()
+    {
+        stateMachine.SwitchState(typeof(Idle));
+    }
+
+    public void Stop()
+    {
+        stopStateMachine = true;
+        rb.velocity = Vector3.zero;
+        rb.isKinematic = true;
     }
 
     private IEnumerator ActivateElectroSuit()
@@ -138,8 +152,6 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
         stateMachine.AddState(new CopperAssault(this));
         stateMachine.AddState(new ElectronOrb(this));
-
-        stateMachine.SwitchState(new Idle(this));
     }
 
     public CharacterStatus CheckChargeAllowed()

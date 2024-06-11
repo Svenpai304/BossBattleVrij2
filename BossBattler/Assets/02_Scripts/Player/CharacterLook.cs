@@ -17,9 +17,12 @@ public class CharacterLook : MonoBehaviour
     private Transform gamepadArrow;
     private bool isKeyboard = false;
     public Vector2 LookDirection;
+    private bool isSetup = false;
 
-    public void Awake()
+    public void OnEnable()
     {
+        if (isSetup) { return; }
+        isSetup = true;
         Cursor.lockState = CursorLockMode.Locked;
         PlayerInput playerInput = GetComponent<PlayerInput>();
         if (playerInput != null && playerInput.devices.Contains(Keyboard.current))
@@ -52,6 +55,7 @@ public class CharacterLook : MonoBehaviour
 
     public void OnLook(InputAction.CallbackContext c)
     {
+        if(!enabled) { return; }
         Vector2 input = c.ReadValue<Vector2>();
         if (isKeyboard) { KeyboardLook(input); }
         else { GamepadLook(input); }
