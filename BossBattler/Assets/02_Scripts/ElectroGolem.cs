@@ -210,6 +210,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
 
     public void Die()
     {
+        BattleManager.instance.OnBossDefeated();
         Destroy(gameObject);
     }
 

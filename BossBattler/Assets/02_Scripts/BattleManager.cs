@@ -35,7 +35,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void BossDefeated()
+    public void OnBossDefeated()
     {
         StartCoroutine(OnWin());
     }
