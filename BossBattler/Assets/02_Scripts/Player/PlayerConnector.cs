@@ -14,11 +14,11 @@ public class PlayerConnector : MonoBehaviour
     {
         if(level == 1)
         {
-            joinUI = FindObjectOfType<PlayerJoinedUI>();
-            for(int i = 0; i < players.Count; i++)
+            foreach(CharacterStatus status in players)
             {
-                joinUI.SetEntryActive(i);
+                Destroy(status.gameObject);
             }
+            joinUI = FindObjectOfType<PlayerJoinedUI>();
         }
     }
 
