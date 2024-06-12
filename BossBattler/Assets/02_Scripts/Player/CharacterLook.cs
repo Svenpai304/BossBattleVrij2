@@ -87,4 +87,12 @@ public class CharacterLook : MonoBehaviour
         gamepadArrow.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, dir));
         LookDirection = dir;
     }
+
+    private void OnDestroy()
+    {
+        if(lookObject != null)
+        {
+            Destroy(lookObject);
+        }
+    }
 }

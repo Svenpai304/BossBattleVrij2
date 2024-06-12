@@ -214,7 +214,7 @@ public class ElectroGolem : MonoBehaviour, IStatus, IDamageable
         Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
         healthBar.SetHealth(Health);
         if (Health == 0) { Die(); }
-        if(Health <= healthThreshold) 
+        if(Health <= healthThreshold && !phase2Entered) 
         { 
             phase2Entered = true;
             SpawnDrone(); SpawnDrone();
@@ -327,10 +327,6 @@ namespace EGStates
             }
             Owner.spriteRenderer.flipX = turnDir;
 
-            if (Owner.phase2Entered)
-            {
-                Owner.SpawnDrone();
-            }
             coroutineActive = false;
         }
     }
@@ -352,6 +348,10 @@ namespace EGStates
             Xdirection = (int)Mathf.Sign((Owner.transform.position - Owner.currentTarget.transform.position).x);
             Owner.rb.velocity = Vector2.zero;
             Owner.rb.AddForce(new Vector2(Xdirection * 4000, 0));
+            if (Owner.phase2Entered)
+            {
+                Owner.SpawnDrone();
+            }
         }
 
         public override void OnUpdate()
@@ -438,6 +438,10 @@ namespace EGStates
             targetY = Mathf.Min(Owner.relocateDestination.y + targetYOffset, Owner.arenaMaxY);
             Xdirection = Mathf.Sign(Owner.relocateDestination.x - Owner.transform.position.x);
             Owner.StartCoroutine(Start());
+            if (Owner.phase2Entered)
+            {
+                Owner.SpawnDrone();
+            }
         }
 
         public override void OnUpdate()
@@ -532,6 +536,10 @@ namespace EGStates
         {
             Owner.animator.SetInteger("state", 3);
             Owner.StartCoroutine(Process());
+            if (Owner.phase2Entered)
+            {
+                Owner.SpawnDrone();
+            }
         }
 
         public override void OnUpdate()
@@ -605,6 +613,10 @@ namespace EGStates
         {
             Owner.animator.SetInteger("state", 4);
             Owner.StartCoroutine(Process());
+            if (Owner.phase2Entered)
+            {
+                Owner.SpawnDrone();
+            }
         }
 
         public override void OnUpdate()

@@ -154,7 +154,25 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
 
     private void Die()
     {
-        Debug.Log("ouchie");
+
+        Destroy(cl);
+        Destroy(cm);
+        Destroy(cj);
+        Destroy(cd);
+        Destroy(sp);
+        rb.isKinematic = false;
+        rb.AddForce(Random.insideUnitCircle * 20);
+        rb.AddTorque(Random.Range(5, 40));
+        PlayerConnector.instance.players.Remove(this);
+        BattleManager.instance.OnPlayerDefeated();
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if(level == 1)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void BuffDamageTaken(string _ID, float _dur, int _maxStacks, float BuffMod)
