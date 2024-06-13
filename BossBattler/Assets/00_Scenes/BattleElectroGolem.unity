@@ -188,6 +188,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8493728877686724348, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
+      propertyPath: MaxHealth
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493728877686724348, guid: 37d166d1f03abab46905b739450cf60e, type: 3}
       propertyPath: arenaMaxY
       value: 40
       objectReference: {fileID: 0}

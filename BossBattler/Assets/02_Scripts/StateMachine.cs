@@ -1,8 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using static UnityEditor.VersionControl.Asset;
-using Unity.VisualScripting;
 /*
 * StateMachine by Valentijn Muijrers
 */

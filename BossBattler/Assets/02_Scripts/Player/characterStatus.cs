@@ -14,6 +14,7 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
     SciencePack sp;
     CharacterDash cd;
     Rigidbody2D rb;
+    BoxCollider2D bc;
     [HideInInspector] public CharacterUI ui;
     public ParticleSystem castingParticles;
     public SpriteRenderer sprite;
@@ -68,6 +69,7 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         cd = GetComponent<CharacterDash>();
         sp = GetComponent<SciencePack>();
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
         ResetStatus();
     }
 
@@ -161,7 +163,11 @@ public class CharacterStatus : MonoBehaviour, IStatus, IDamageable
         Destroy(cd);
         Destroy(sp);
         rb.isKinematic = false;
-        rb.AddForce(Random.insideUnitCircle * 20);
+        Vector2 deathForce = Random.insideUnitCircle.normalized * 20;
+        deathForce.y = Mathf.Abs(deathForce.y);
+        rb.AddForce(deathForce, ForceMode2D.Impulse);
+        rb.freezeRotation = false;
+        bc.isTrigger = true;
         rb.AddTorque(Random.Range(5, 40));
         PlayerConnector.instance.players.Remove(this);
         BattleManager.instance.OnPlayerDefeated();
